@@ -74,7 +74,7 @@ function Home() {
       </div>
 
       {/* Image Below the First Image, Centered */}
-      <div className="absolute bottom-65 left-1/2 transform -translate-x-1/2">
+      <div className="absolute bottom-75 left-1/2 transform -translate-x-1/2">
         <img
           src={character} // Replace with your image source
           alt="character"
