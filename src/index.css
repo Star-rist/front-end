@@ -22,24 +22,3 @@
 body {
   font-family: sans-serif;
 }
-/* Reset margin and padding for all elements */
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Ensure that html and body take up full height */
-html,
-body {
-  height: 100%;
-  width: 100%;
-  overflow: hidden; /* Prevent scrollbars */
-}
-
-.glow-effect {
-  filter: drop-shadow(0 0 32px rgba(255, 255, 255, 0.8))
-    drop-shadow(0 0 50px rgba(255, 255, 255, 0.6));
-}
