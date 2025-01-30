@@ -27,7 +27,7 @@ const Loading = () => {
   }, [step]);
 
   return (
-    <div className="min-h-screen w-full bg-black flex flex-col justify-end items-center relative">
+    <div className="container min-h-screen w-full bg-black flex flex-col justify-end items-center relative">
       {/* Background Image */}
       <img
         src={homepageImage}
@@ -83,7 +83,7 @@ const Loading = () => {
           <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-start text-white z-10 pt-25">
             {/* Logo at the top */}
             <img src={logo} alt="logo" className="max-w-full h-auto" />
-            <div className="absolute bottom-16 text-center px-4">
+            <div className="absolute bottom-25 text-center px-4">
               <div className="flex flex-col items-center">
                 <p className="text-lg font-bold text-[#88D2EE]">
                   Launching very soon

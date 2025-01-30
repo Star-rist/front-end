@@ -28,7 +28,7 @@ function Home() {
   };
 
   return (
-    <div className="relative bg-black min-h-screen w-full">
+    <div className="container relative bg-black min-h-screen w-full">
       {/* Background Image */}
       <img
         src={homepageImage}
@@ -44,7 +44,7 @@ function Home() {
       />
 
       {/* Image and Text at Top Left */}
-      <div className="absolute top-11 left-4 p-4 gap-2 flex items-center">
+      <div className="absolute top-11 left-4 p-4 gap-1 flex items-center">
         <img
           src={profileIcon}
           alt="profile Icon"
@@ -56,7 +56,7 @@ function Home() {
       {/* Container for the first image and text */}
       <div className="absolute top-33 left-0 w-full h-full flex flex-col items-center justify-start z-10 pt-25">
         {/* First Image */}
-        <div className="relative w-65">
+        <div className="relative w-65 top-[-100px]">
           <img src={screen} alt="screen" className="w-full object-cover" />
 
           {/* Text inside the first image */}
