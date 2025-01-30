@@ -54,7 +54,7 @@ function Home() {
       </div>
 
       {/* Container for the first image and text */}
-      <div className="absolute top-40 left-0 w-full h-full flex flex-col items-center justify-start z-10 pt-25">
+      <div className="absolute top-33 left-0 w-full h-full flex flex-col items-center justify-start z-10 pt-25">
         {/* First Image */}
         <div className="relative w-65 top-[-100px]">
           <img src={screen} alt="screen" className="w-full object-cover" />
@@ -74,7 +74,7 @@ function Home() {
       </div>
 
       {/* Image Below the First Image, Centered */}
-      <div className="absolute bottom-83 left-1/2 transform -translate-x-1/2">
+      <div className="absolute bottom-70 left-1/2 transform -translate-x-1/2">
         <img
           src={character} // Replace with your image source
           alt="character"
@@ -83,7 +83,7 @@ function Home() {
       </div>
 
       {/* Progress Bar */}
-      <div className="absolute bottom-63 left-1/2 transform -translate-x-1/2 w-90">
+      <div className="absolute bottom-53 left-1/2 transform -translate-x-1/2 w-90">
         {/* Text Section */}
         <div className="flex justify-between text-white text-xl font-bold mb-2">
           <span>Time Remaining</span>
@@ -111,7 +111,7 @@ function Home() {
       </div>
 
       {/* Gradient Button with Text */}
-      <div className="absolute bottom-45 left-1/2 transform -translate-x-1/2">
+      <div className="absolute bottom-35 left-1/2 transform -translate-x-1/2">
         <div className="w-90 h-13 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer">
           Collect Now
         </div>
