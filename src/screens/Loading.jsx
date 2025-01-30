@@ -59,7 +59,7 @@ const Loading = () => {
           <img src={logo} alt="logo" className="max-w-full h-auto" />
 
           {/* Loading Animation & Text */}
-          <div className="absolute bottom-16 text-center px-4">
+          <div className="absolute bottom-30 text-center px-4">
             <div className="flex flex-col items-center">
               <div className="w-7 h-7 border-3 border-[#88D2EE] border-t-transparent rounded-full animate-spin mb-8"></div>
               <p className="text-lg font-bold text-[#88D2EE]">
@@ -83,7 +83,7 @@ const Loading = () => {
           <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-start text-white z-10 pt-25">
             {/* Logo at the top */}
             <img src={logo} alt="logo" className="max-w-full h-auto" />
-            <div className="absolute bottom-25 text-center px-4">
+            <div className="absolute bottom-30 text-center px-4">
               <div className="flex flex-col items-center">
                 <p className="text-lg font-bold text-[#88D2EE]">
                   Launching very soon

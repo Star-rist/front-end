@@ -83,7 +83,7 @@ function Home() {
       </div>
 
       {/* Progress Bar */}
-      <div className="absolute bottom-49 left-1/2 transform -translate-x-1/2 w-90">
+      <div className="absolute bottom-57 left-1/2 transform -translate-x-1/2 w-90">
         {/* Text Section */}
         <div className="flex justify-between text-white text-xl font-bold mb-2">
           <span>Time Remaining</span>
@@ -111,7 +111,7 @@ function Home() {
       </div>
 
       {/* Gradient Button with Text */}
-      <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2">
+      <div className="absolute bottom-40 left-1/2 transform -translate-x-1/2">
         <div className="w-90 h-13 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer">
           Collect Now
         </div>
