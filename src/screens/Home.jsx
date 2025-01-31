@@ -50,11 +50,11 @@ function Home() {
           alt="profile Icon"
           className="w-10 h-10 object-cover mr-2"
         />
-        <p className="text-white font-light">username</p>
+        <p className="text-white text-lg font-bold">username</p>
       </div>
 
       {/* Container for the first image and text */}
-      <div className="absolute top-33 left-0 w-full h-full flex flex-col items-center justify-start z-10 pt-25">
+      <div className="absolute top-40 left-0 w-full h-full flex flex-col items-center justify-start z-10 pt-25">
         {/* First Image */}
         <div className="relative w-65 top-[-100px]">
           <img src={screen} alt="screen" className="w-full object-cover" />
@@ -74,7 +74,7 @@ function Home() {
       </div>
 
       {/* Image Below the First Image, Centered */}
-      <div className="absolute bottom-70 left-1/2 transform -translate-x-1/2">
+      <div className="absolute bottom-75 left-1/2 transform -translate-x-1/2">
         <img
           src={character} // Replace with your image source
           alt="character"

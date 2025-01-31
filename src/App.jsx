@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./App.css";
 import {
   BrowserRouter as Router,
