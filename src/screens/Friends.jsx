@@ -69,7 +69,7 @@ const Friends = () => {
       />
 
       {/* Referral Rewards */}
-      <div className="w-90 mt-6">
+      <div className="w-100 max-w-md mt-6">
         {referralRewards.map((reward, index) => (
           <div
             key={index}
