@@ -87,7 +87,7 @@ const Friends = () => {
       </div>
 
       {/* Invite Button & Link Button */}
-      <div className="flex items-center gap-4 w-90 mx-auto mt-6">
+      <div className="flex items-center gap-4 w-100 max-w-md mt-6">
         <button className="p-3 w-full bg-gradient-to-l from-[#C7F0FF] to-[#88D2EE] text-black text-center rounded-none font-bold">
           Invite Friends
         </button>
