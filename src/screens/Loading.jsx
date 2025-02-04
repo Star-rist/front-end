@@ -21,7 +21,7 @@ const Loading = () => {
     if (step === 2) {
       const timer = setTimeout(() => {
         setStep(3); // Automatically move to final page after 3 seconds
-      }, 3000);
+      }, 2000);
       return () => clearTimeout(timer);
     }
   }, [step]);

@@ -82,17 +82,13 @@ function Home() {
         />
       </div>
 
-      {/* Progress Bar */}
-      <div className="absolute bottom-53 left-1/2 transform -translate-x-1/2 w-90">
-        {/* Text Section */}
-        <div className="flex justify-between text-white text-xl font-bold mb-2">
+     {/* Progress Bar */}
+     <div className="absolute bottom-54 left-1/2 transform -translate-x-1/2 w-11/12 max-w-md z-10">
+        <div className="flex justify-between text-white text-lg font-bold mb-2">
           <span>Time Remaining</span>
           <span>02:15:27</span>
         </div>
-
-        {/* Progress Bar Container */}
-        <div className="relative w-full h-4 bg-black overflow-hidden">
-          {/* Dividers */}
+        <div className="relative w-full h-3 bg-black overflow-hidden">
           <div className="absolute inset-0 flex justify-between">
             {[...Array(9)].map((_, index) => (
               <div
@@ -101,18 +97,16 @@ function Home() {
               ></div>
             ))}
           </div>
-
-          {/* Gradient Fill - Reduced to Half */}
           <div
             className="h-full bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] transition-all duration-1000"
-            style={{ width: "60%" }} // Half of the progress bar
+            style={{ width: "60%" }}
           ></div>
         </div>
       </div>
 
-      {/* Gradient Button with Text */}
-      <div className="absolute bottom-35 left-1/2 transform -translate-x-1/2">
-        <div className="w-90 h-13 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer">
+     {/* Button */}
+     <div className="absolute bottom-37 left-1/2 transform -translate-x-1/2 z-10">
+        <div className="w-95 sm:w-48 h-12 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer rounded-md">
           Collect Now
         </div>
       </div>
