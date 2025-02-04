@@ -52,7 +52,7 @@ const UpgradeBox = ({ level, earnings, cost, isActive }) => (
       <div className="flex items-center gap-1 mt-1">
         <span className="text-sm font-thin text-[#999999]">Earn</span>
         <img src={star} alt="star" className="w-6 h-6 object-cover" />
-        <span className="text-sm font-bold bg-gradient-to-l from-[#C7F0FF] to-[#88D2EE] bg-clip-text text-transparentthe weeknd cry for me">
+        <span className="text-sm font-bold bg-gradient-to-l from-[#C7F0FF] to-[#88D2EE] bg-clip-text text-transparent font-black">
           {earnings}
         </span>
         <span className="text-sm font-thin text-[#999999]">every 4 hours</span>
