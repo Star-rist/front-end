@@ -5,7 +5,7 @@ import star from "../assets/Home/Star.png";
 import profileIcon from "../assets/Home/Profile Icon.png";
 
 const TaskBox = ({ iconLeft, points, text, secondText, imgAlt }) => (
-  <div className="flex items-center justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-90 mx-auto bg-[#121315] mb-4">
+  <div className="flex items-center justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-100 max-w-md mx-auto bg-[#121315] mb-4">
     {/* Left Icon */}
     <div className="flex gap-4">
       <div
