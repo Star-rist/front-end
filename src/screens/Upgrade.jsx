@@ -81,7 +81,7 @@ const UpgradeBox = ({ level, earnings, cost, isActive }) => (
 
 const CurrentBooster = ({ username, points, boosterLevel }) => {
   return (
-    <div className="absolute top-11 left-0 w-full flex justify-between px-6 p-4 items-center text-white">
+    <div className="absolute top-4 left-0 w-full flex justify-between px-4 p-4 items-center text-white">
       {/* Left Side - User Profile */}
       <div className="flex items-center gap-3">
         <img

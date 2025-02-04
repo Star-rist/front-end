@@ -16,13 +16,13 @@ function Wallet() {
       alt="Background"
       className="absolute top-0 left-0 w-full h-full object-cover"
     /> */}
-      <div className="absolute top-7 left-0 w-100 flex justify-between px-4 p-4 items-center">
+      <div className="absolute top-4 left-0 w-full flex justify-between px-4 p-4 items-center">
         {/* Image and Text at Top Left */}
         <div className="flex items-center gap-1">
           <img
             src={profileIcon}
             alt="profile Icon"
-            className="w-10 h-10 object-cover"
+            className="w-12 h-12 object-cover"
           />
           <p className="text-white text-lg font-bold">username</p>
         </div>
