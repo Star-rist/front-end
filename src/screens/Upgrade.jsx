@@ -34,7 +34,7 @@ const boosterIcons = {
 };
 
 const UpgradeBox = ({ level, earnings, cost, isActive }) => (
-  <div className="flex items-center justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-90 mx-auto bg-[#121315] mb-4">
+  <div className="flex items-center justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-100 max-w-md bg-[#121315] mb-4">
     {/* Left Side - Booster Icon */}
     <div className="flex gap-4">
       <div className="">
@@ -81,7 +81,7 @@ const UpgradeBox = ({ level, earnings, cost, isActive }) => (
 
 const CurrentBooster = ({ username, points, boosterLevel }) => {
   return (
-    <div className="absolute top-11 left-0 w-full flex justify-between px-6 p-4 items-center text-white">
+    <div className="absolute top-4 left-0 w-full flex justify-between px-4 p-4 items-center text-white">
       {/* Left Side - User Profile */}
       <div className="flex items-center gap-3">
         <img

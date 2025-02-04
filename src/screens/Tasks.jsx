@@ -5,7 +5,7 @@ import star from "../assets/Home/Star.png";
 import profileIcon from "../assets/Home/Profile Icon.png";
 
 const TaskBox = ({ iconLeft, points, text, secondText, imgAlt }) => (
-  <div className="flex items-center justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-90 mx-auto bg-[#121315] mb-4">
+  <div className="flex items-center justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-100 max-w-md mx-auto bg-[#121315] mb-4">
     {/* Left Icon */}
     <div className="flex gap-4">
       <div
@@ -64,13 +64,13 @@ function Tasks() {
       />
 
       {/* Top Bar Container */}
-      <div className="absolute top-11 left-0 w-100 flex justify-between px-4 p-4 items-center">
+      <div className="absolute top-4 left-0 w-full flex justify-between px-4 p-4 items-center">
         {/* Image and Text at Top Left */}
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-3">
           <img
             src={profileIcon}
             alt="profile Icon"
-            className="w-10 h-10 object-cover"
+            className="w-12 h-12 object-cover"
           />
           <p className="text-white text-lg font-bold">username</p>
         </div>
