@@ -20,8 +20,8 @@ const Loading = () => {
   useEffect(() => {
     if (step === 2) {
       const timer = setTimeout(() => {
-        setStep(3); // Automatically move to final page after 3 seconds
-      }, 2000);
+        setStep(3); // Automatically move to final page after 1 seconds
+      }, 1000);
       return () => clearTimeout(timer);
     }
   }, [step]);

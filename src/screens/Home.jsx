@@ -13,30 +13,31 @@ const TIMER_KEY = "lastCollectedTime"; // Key to store timestamp in localStorage
 function Home() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  // Get params from URL or localStorage
+  // Extract parameters from the URL
   const telegramIdFromUrl = queryParams.get("telegramId");
   const usernameFromUrl = queryParams.get("username");
 
+  // Initialize state from localStorage
   const [telegramId, setTelegramId] = useState(() => {
-    return telegramIdFromUrl || localStorage.getItem("telegramId") || "";
+    return localStorage.getItem("telegramId") || "";
   });
 
   const [username, setUsername] = useState(() => {
-    return usernameFromUrl || localStorage.getItem("username") || "";
+    return localStorage.getItem("username") || "";
   });
 
-  // Save to localStorage if new
+  // Store values in localStorage when received from URL
   useEffect(() => {
-    if (telegramIdFromUrl) {
-      localStorage.setItem("telegramId", telegramIdFromUrl);
+    if (telegramIdFromUrl && telegramIdFromUrl !== telegramId) {
       setTelegramId(telegramIdFromUrl);
+      localStorage.setItem("telegramId", telegramIdFromUrl);
     }
 
-    if (usernameFromUrl) {
-      localStorage.setItem("username", usernameFromUrl);
+    if (usernameFromUrl && usernameFromUrl !== username) {
       setUsername(usernameFromUrl);
+      localStorage.setItem("username", usernameFromUrl);
     }
-  }, [telegramIdFromUrl, usernameFromUrl]);
+  }, [telegramIdFromUrl, usernameFromUrl, telegramId, username]);
 
   console.log("Telegram ID:", telegramId);
   console.log("Username:", username);
@@ -93,7 +94,7 @@ function Home() {
           alt="profile Icon"
           className="w-10 h-10 object-cover mr-2"
         />
-        <p className="text-white text-lg font-bold">{username}</p>
+        <p className="text-white text-lg font-bold">{}</p>
       </div>
 
       {/* Main Display */}
