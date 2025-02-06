@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom"
 import { useNavigate } from "react-router-dom"; // Import the useNavigate hook
 import homepageImage from "../assets/Splash/Frame 3.png";
 import animatedGif from "../assets/Splash/Star Effect.gif";
@@ -6,6 +7,16 @@ import logo from "../assets/Splash/Logo.png";
 import middleImage from "../assets/Splash/Character.png";
 
 const Loading = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  // Extract parameters from the URL
+  const telegramId = queryParams.get("telegramId");
+  const username = queryParams.get("username");
+
+
+
+  console.log("Telegram ID:", telegramId);
+  console.log("Username:", username);
   const [step, setStep] = useState(1);
   const navigate = useNavigate(); // Hook to navigate to other pages
 
@@ -13,7 +24,7 @@ const Loading = () => {
     if (step === 1) {
       setStep(2); // Move to loading screen after user clicks
     } else if (step === 3) {
-      navigate("/home"); // Navigate to home when clicked on Step 3
+      navigate(`/home?telegramId=${telegramId}&username=${username}`);
     }
   };
 
