@@ -17,42 +17,20 @@ function Home() {
     queryParams.get("id") || localStorage.getItem("telegramId") || ""; // Extract 'id' (telegramId) from the URL
 
   const [username, setUsername] = useState(() => {
-    return localStorage.getItem("username") || ""; // Initialize username from localStorage
+    return localStorage.getItem("username") || telegramId; // Initialize username from localStorage or use telegramId
   });
-
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (!telegramId) {
-        return;
-      }
+    if (!telegramId) return;
 
-      // Save `telegramId` to localStorage if new
-      const storedTelegramId = localStorage.getItem("telegramId");
-      if (storedTelegramId !== telegramId) {
-        localStorage.clear();
-        localStorage.setItem("telegramId", telegramId);
-      }
-
-      // Fetch username
-      // try {
-      //   const response = await axios.get(
-      //     `https://nigecoin-backend-1.onrender.com/user/${telegramId}`
-      //   );
-      //   const fetchedUsername = response.data.username;
-      //   if (fetchedUsername) {
-      //     localStorage.setItem("username", fetchedUsername);
-      //     setUsername(fetchedUsername);
-      //   } else {
-      //     console.log("No username found");
-      //   }
-      // } catch (error) {
-      //   console.error("Error fetching username:", error);
-      // }
-    };
-
-    fetchUserData();
+    // Save `telegramId` to localStorage if new
+    const storedTelegramId = localStorage.getItem("telegramId");
+    if (storedTelegramId !== telegramId) {
+      localStorage.setItem("telegramId", telegramId);
+      setUsername(telegramId); // Set username to telegramId
+    }
   }, [telegramId]);
-  console.log(telegramId);
+
+  console.log("Telegram ID:", telegramId);
 
   const [isOpen, setIsOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState(FOUR_HOURS);
