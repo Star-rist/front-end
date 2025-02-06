@@ -60,7 +60,7 @@ function Wallet() {
       </div>
 
       {/* Button */}
-      <div className="absolute top-94 left-1/2 transform -translate-x-1/2 z-10">
+      <div className="absolute top-90 left-1/2 transform -translate-x-1/2 z-10">
         <div
           className="w-95 sm:w-48 h-12 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer"
           onClick={() => setIsOpen(true)}
@@ -69,13 +69,13 @@ function Wallet() {
         </div>
       </div>
 
-      <div className="absolute top-1/2 justify-center font-bold">
+      <div className="fixed top-1/2 justify-center font-bold">
         <h1 className="text-sm bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] bg-clip-text text-transparent ">
           Intructions on HOW TO CONNECT A WALLET{" "}
         </h1>
       </div>
 
-      <div className="absolute bottom-87 flex flex-col items-center justify-center w-90 text-xs font-light">
+      <div className="fixed bottom-80 flex flex-col items-center justify-center w-90 text-xs font-light">
         <p className="mt-2 text-[#999999]">
           An airdrop is the distribution of tokens to players' wallets. These
           tokens will be traded on top exchanges, and you can either sell or
