@@ -26,24 +26,24 @@ const NonMobileMessage = () => (
 
 const App = () => {
   // const [count, setCount] = useState(0);
-  const [isMobile, setIsMobile] = useState(true);
+  // const [isMobile, setIsMobile] = useState(true);
 
-  useEffect(() => {
+  // useEffect(() => {
     
-    if (window.Telegram && window.Telegram.WebApp) {
+  //   if (window.Telegram && window.Telegram.WebApp) {
      
-      window.Telegram.WebApp.disableVerticalSwipes();
-    } else {
-      console.warn('Telegram WebApp API is not available');
-    }
+  //     window.Telegram.WebApp.disableVerticalSwipes();
+  //   } else {
+  //     console.warn('Telegram WebApp API is not available');
+  //   }
 
-    // Detect device type
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    const mobileDevices = /android|iphone|ipad|ipod|opera mini|iemobile|blackberry|kindle|mobile/i;
-    setIsMobile(mobileDevices.test(userAgent));
-  }, []);
+  //   // Detect device type
+  //   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  //   const mobileDevices = /android|iphone|ipad|ipod|opera mini|iemobile|blackberry|kindle|mobile/i;
+  //   setIsMobile(mobileDevices.test(userAgent));
+  // }, []);
 
-  if (!isMobile) return <NonMobileMessage />;
+  // if (!isMobile) return <NonMobileMessage />;
 
   const ExcludeBottomNavigation = () => {
     const location = useLocation();

@@ -84,7 +84,7 @@ function Home() {
           alt="profile Icon"
           className="w-10 h-10 object-cover mr-2"
         />
-        <p className="text-white text-lg font-bold">username</p>
+        <p className="text-white text-lg font-bold">{username}</p>
       </div>
 
       {/* Main Display */}
