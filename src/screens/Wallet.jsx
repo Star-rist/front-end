@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom"; // Import the useNavigate hook
 import homepageImage from "../assets/Splash/Frame 3.png";
 import star from "../assets/Home/Star.png";
 import profileIcon from "../assets/Home/Profile Icon.png";
 import walletIcon from "../assets/Wallet/Icon.png";
+import { TelegramContext } from "../context/TelegramContext";
 
-function Wallet() {
+const Wallet = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { username, telegramId } = useContext(TelegramContext);
 
   return (
     <div className="container min-h-screen w-full bg-black flex flex-col justify-end items-center relative">
@@ -24,7 +26,7 @@ function Wallet() {
             alt="profile Icon"
             className="w-12 h-12 object-cover"
           />
-          <p className="text-white text-lg font-bold">username</p>
+          <p className="text-white text-lg font-bold">{username}</p>
         </div>
 
         {/* Second Text and Image at Top Right */}
@@ -60,7 +62,7 @@ function Wallet() {
       </div>
 
       {/* Button */}
-      <div className="absolute top-94 left-1/2 transform -translate-x-1/2 z-10">
+      <div className="absolute top-90 left-1/2 transform -translate-x-1/2 z-10">
         <div
           className="w-95 sm:w-48 h-12 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer"
           onClick={() => setIsOpen(true)}
@@ -69,13 +71,13 @@ function Wallet() {
         </div>
       </div>
 
-      <div className="absolute top-1/2 justify-center font-bold">
+      <div className="fixed top-1/2 justify-center font-bold">
         <h1 className="text-sm bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] bg-clip-text text-transparent ">
           Intructions on HOW TO CONNECT A WALLET{" "}
         </h1>
       </div>
 
-      <div className="absolute bottom-87 flex flex-col items-center justify-center w-90 text-xs font-light">
+      <div className="fixed bottom-80 flex flex-col items-center justify-center w-90 text-xs font-light">
         <p className="mt-2 text-[#999999]">
           An airdrop is the distribution of tokens to players' wallets. These
           tokens will be traded on top exchanges, and you can either sell or
@@ -118,6 +120,6 @@ function Wallet() {
       )}
     </div>
   );
-}
+};
 
 export default Wallet;

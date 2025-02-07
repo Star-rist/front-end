@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import homepageImage from "../assets/Splash/Frame 3.png";
 import animatedGif from "../assets/Splash/Star Effect.gif";
 import star from "../assets/Home/Star.png";
 import updateStar from "../assets/Update/Component/updateStar.png";
 import profileIcon from "../assets/Home/Profile Icon.png";
+import { TelegramContext } from "../context/TelegramContext";
 
 // Import booster icons for each level
 import upgradeLv0 from "../assets/Update/Component/0.png";
@@ -34,7 +35,7 @@ const boosterIcons = {
 };
 
 const UpgradeBox = ({ level, earnings, cost, isActive }) => (
-  <div className="flex items-center justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-100 max-w-md bg-[#121315] mb-4">
+  <div className="flex items-center justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-95 max-w-md bg-[#121315] mb-4">
     {/* Left Side - Booster Icon */}
     <div className="flex gap-4">
       <div className="">
@@ -82,25 +83,35 @@ const UpgradeBox = ({ level, earnings, cost, isActive }) => (
 const CurrentBooster = ({ username, points, boosterLevel }) => {
   return (
     <div className="absolute top-4 left-0 w-full flex justify-between px-4 p-4 items-center text-white">
-      {/* Left Side - User Profile */}
-      <div className="flex items-center gap-3">
-        <img
-          src={profileIcon}
-          alt="profile Icon"
-          className="w-12 h-12 object-cover"
-        />
-        <div className="flex flex-col">
-          <p className="text-lg font-bold">{username}</p>
-          <span className="text-sm text-gray-400">Current Booster</span>
+      <div className="absolute top-4 left-0 w-full flex justify-between px-4 p-4 items-center">
+        {/* Image and Text at Top Left */}
+        <div className="flex items-center gap-3">
+          <img
+            src={profileIcon}
+            alt="profile Icon"
+            className="w-12 h-12 object-cover"
+          />
+          <p className="text-white text-lg font-bold">{username}</p>
+        </div>
+
+        {/* Second Text and Image at Top Right */}
+        <div className="flex items-center gap-2">
+          <img
+            src={star}
+            alt="star"
+            className="w-6 h-6 object-cover rounded-full"
+          />
+          <p className="text-lg font-bold text-white">2,403,280</p>
         </div>
       </div>
 
-      {/* Right Side - Points and Booster Level */}
-      <div className="flex flex-col items-end">
-        <div className="flex items-center gap-2">
-          <img src={star} alt="star" className="w-6 h-6 object-cover" />
-          <p className="text-lg font-bold">{points.toLocaleString()}</p>
+      <div className="absolute top-18 left-0 w-full flex justify-between px-4 p-4 items-center">
+        {/* Image and Text at Top Left */}
+        <div className="flex items-center gap-3">
+          <p className="text-sm text-gray-400">Current Booster</p>
         </div>
+
+        {/* Second Text and Image at Top Right */}
         <div className="flex items-center gap-2 text-[#88D2EE] font-bold">
           <img
             src={boosterIcons[boosterLevel]}
@@ -115,6 +126,8 @@ const CurrentBooster = ({ username, points, boosterLevel }) => {
 };
 
 function Upgrade() {
+  const { username, telegramId } = useContext(TelegramContext);
+
   const [upgrades] = useState([
     { level: 0, earnings: "10" },
     { level: 1, earnings: "20", cost: "500", isActive: false },
@@ -144,10 +157,10 @@ function Upgrade() {
       />
 
       {/* Current Booster Section */}
-      <CurrentBooster username="username" points={2403280} boosterLevel={5} />
+      <CurrentBooster username={username} points={2403280} boosterLevel={5} />
 
       {/* Upgrade List - Scrollable */}
-      <div className="relative z-10 flex flex-col items-center space-y-4 mt-28 overflow-y-auto max-h-[60vh] w-full px-6">
+      <div className="relative z-10 flex flex-col items-center space-y-4 mt-28 overflow-y-auto max-h-[77vh] w-full px-6">
         {upgrades.map((upgrade, index) => (
           <UpgradeBox key={index} {...upgrade} />
         ))}

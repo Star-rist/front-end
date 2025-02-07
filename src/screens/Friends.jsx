@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import profileIcon from "../assets/Home/Profile Icon.png";
 import star from "../assets/Home/Star.png";
 import homepageImage from "../assets/Splash/Frame 3.png";
 import animatedGif from "../assets/Splash/Star Effect.gif";
 import linkButton from "../assets/Friends/Component/Attachment, Link.png";
+import { TelegramContext } from "../context/TelegramContext";
 
 const referralRewards = [
   { invites: "3", reward: "100" },
@@ -14,6 +15,8 @@ const referralRewards = [
 ];
 
 const Friends = () => {
+  const { username, telegramId } = useContext(TelegramContext);
+
   return (
     <div
       className="container min-h-screen w-full bg-black flex flex-col items-center p-6 relative"
@@ -32,7 +35,7 @@ const Friends = () => {
             className="w-12 h-12 object-cover"
           />
           <div className="flex flex-col">
-            <p className="text-lg font-bold">username</p>
+            <p className="text-lg font-bold">{username}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -69,7 +72,7 @@ const Friends = () => {
       />
 
       {/* Referral Rewards */}
-      <div className="w-100 max-w-md mt-6">
+      <div className="w-95 max-w-md mt-6">
         {referralRewards.map((reward, index) => (
           <div
             key={index}
@@ -87,7 +90,7 @@ const Friends = () => {
       </div>
 
       {/* Invite Button & Link Button */}
-      <div className="flex items-center gap-4 w-100 max-w-md mt-6">
+      <div className="flex items-center gap-4 w-95 max-w-md mt-6">
         <button className="p-3 w-full bg-gradient-to-l from-[#C7F0FF] to-[#88D2EE] text-black text-center rounded-none font-bold">
           Invite Friends
         </button>
