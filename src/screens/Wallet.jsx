@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom"; // Import the useNavigate hook
 import homepageImage from "../assets/Splash/Frame 3.png";
 import star from "../assets/Home/Star.png";
 import profileIcon from "../assets/Home/Profile Icon.png";
 import walletIcon from "../assets/Wallet/Icon.png";
+import { TelegramContext } from "../context/TelegramContext";
 
-function Wallet() {
+const Wallet = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { username, telegramId } = useContext(TelegramContext);
 
   return (
     <div className="container min-h-screen w-full bg-black flex flex-col justify-end items-center relative">
@@ -24,7 +26,7 @@ function Wallet() {
             alt="profile Icon"
             className="w-12 h-12 object-cover"
           />
-          <p className="text-white text-lg font-bold">username</p>
+          <p className="text-white text-lg font-bold">{username}</p>
         </div>
 
         {/* Second Text and Image at Top Right */}
@@ -118,6 +120,6 @@ function Wallet() {
       )}
     </div>
   );
-}
+};
 
 export default Wallet;

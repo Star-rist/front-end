@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import homepageImage from "../assets/Splash/Frame 3.png";
 import animatedGif from "../assets/Splash/Star Effect.gif";
 import star from "../assets/Home/Star.png";
 import updateStar from "../assets/Update/Component/updateStar.png";
 import profileIcon from "../assets/Home/Profile Icon.png";
+import { TelegramContext } from "../context/TelegramContext";
 
 // Import booster icons for each level
 import upgradeLv0 from "../assets/Update/Component/0.png";
@@ -90,7 +91,7 @@ const CurrentBooster = ({ username, points, boosterLevel }) => {
             alt="profile Icon"
             className="w-12 h-12 object-cover"
           />
-          <p className="text-white text-lg font-bold">username</p>
+          <p className="text-white text-lg font-bold">{username}</p>
         </div>
 
         {/* Second Text and Image at Top Right */}
@@ -125,6 +126,8 @@ const CurrentBooster = ({ username, points, boosterLevel }) => {
 };
 
 function Upgrade() {
+  const { username, telegramId } = useContext(TelegramContext);
+
   const [upgrades] = useState([
     { level: 0, earnings: "10" },
     { level: 1, earnings: "20", cost: "500", isActive: false },
@@ -154,7 +157,7 @@ function Upgrade() {
       />
 
       {/* Current Booster Section */}
-      <CurrentBooster username="username" points={2403280} boosterLevel={5} />
+      <CurrentBooster username={username} points={2403280} boosterLevel={5} />
 
       {/* Upgrade List - Scrollable */}
       <div className="relative z-10 flex flex-col items-center space-y-4 mt-28 overflow-y-auto max-h-[77vh] w-full px-6">

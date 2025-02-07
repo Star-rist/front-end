@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import homepageImage from "../assets/Splash/Frame 3.png";
 import animatedGif from "../assets/Splash/Star Effect.gif";
 import star from "../assets/Home/Star.png";
 import profileIcon from "../assets/Home/Profile Icon.png";
+import { TelegramContext } from "../context/TelegramContext";
 
 const TaskBox = ({ iconLeft, points, text, secondText, imgAlt }) => (
   <div className="flex items-center justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-95 max-w-md mx-auto bg-[#121315] mb-4">
@@ -45,6 +46,8 @@ const TaskBox = ({ iconLeft, points, text, secondText, imgAlt }) => (
 );
 
 function Tasks() {
+  const { username, telegramId } = useContext(TelegramContext);
+
   const [activeTab, setActiveTab] = useState("Daily");
 
   return (
@@ -72,7 +75,7 @@ function Tasks() {
             alt="profile Icon"
             className="w-12 h-12 object-cover"
           />
-          <p className="text-white text-lg font-bold">username</p>
+          <p className="text-white text-lg font-bold">{username}</p>
         </div>
 
         {/* Second Text and Image at Top Right */}

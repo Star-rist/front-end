@@ -14,7 +14,7 @@ import Upgrade from "./screens/Upgrade.jsx";
 import Wallet from "./screens/Wallet.jsx";
 import Tasks from "./screens/Tasks.jsx";
 import BottomNavigation from "./components/BottomNavigation.jsx";
-
+import { TelegramProvider } from "./context/TelegramContext.jsx";
 
 // Message Component for Non-Mobile Devices
 const NonMobileMessage = () => (
@@ -29,9 +29,9 @@ const App = () => {
   // const [isMobile, setIsMobile] = useState(true);
 
   // useEffect(() => {
-    
+
   //   if (window.Telegram && window.Telegram.WebApp) {
-     
+
   //     window.Telegram.WebApp.disableVerticalSwipes();
   //   } else {
   //     console.warn('Telegram WebApp API is not available');
@@ -51,20 +51,22 @@ const App = () => {
     return !excludeRoutes.includes(location.pathname) && <BottomNavigation />;
   };
   return (
-    <Router>
-      <div className="xl:w-[30%] lg:w-[50%] md:w-[70%] w-full max-h-screen min-h-screen overflow-hidden bg-gradient-to-t from-[#0b0c0e] to-[#010507] flex flex-col justify-between my-0 mx-auto px-0 ">
-        <Routes>
-          <Route path="/" element={<Loading />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/tasks" element={<Tasks />} />
-          <Route path="/friends" element={<Friends />} />
-          <Route path="/wallet" element={<Wallet />} />
-          <Route path="/upgrade" element={<Upgrade />} />
-        </Routes>
-        <ExcludeBottomNavigation />
-      </div>
-    </Router>
+    <TelegramProvider>
+      <Router>
+        <div className="xl:w-[30%] lg:w-[50%] md:w-[70%] w-full max-h-screen min-h-screen overflow-hidden bg-gradient-to-t from-[#0b0c0e] to-[#010507] flex flex-col justify-between my-0 mx-auto px-0 ">
+          <Routes>
+            <Route path="/" element={<Loading />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/tasks" element={<Tasks />} />
+            <Route path="/friends" element={<Friends />} />
+            <Route path="/wallet" element={<Wallet />} />
+            <Route path="/upgrade" element={<Upgrade />} />
+          </Routes>
+          <ExcludeBottomNavigation />
+        </div>
+      </Router>
+    </TelegramProvider>
   );
-}
+};
 
 export default App;
