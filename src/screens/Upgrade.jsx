@@ -131,14 +131,19 @@ function Upgrade() {
   const { username } = useContext(TelegramContext);
   const [boosterLevel, setBoosterLevel] = useState(0);
   const [points, setPoints] = useState(2403280);
-  const [upgrades, setUpgrades] = useState(
-    [...Array(11)].map((_, level) => ({
-      level,
-      earnings: (10 + level * 5).toString(),
-      cost: level === 0 ? 0 : 500 + (level - 1) * 250,
-      isActive: level === 0,
-    }))
-  );
+  const [upgrades, setUpgrades] = useState([
+    { level: 0, earnings: "10", cost: 0, isActive: true },
+    { level: 1, earnings: "20", cost: 500, isActive: false },
+    { level: 2, earnings: "25", cost: 750, isActive: false },
+    { level: 3, earnings: "30", cost: 1000, isActive: false },
+    { level: 4, earnings: "35", cost: 1250, isActive: false },
+    { level: 5, earnings: "40", cost: 1500, isActive: false },
+    { level: 6, earnings: "45", cost: 1750, isActive: false },
+    { level: 7, earnings: "50", cost: 2000, isActive: false },
+    { level: 8, earnings: "55", cost: 2250, isActive: false },
+    { level: 9, earnings: "60", cost: 2500, isActive: false },
+    { level: 10, earnings: "65", cost: 2750, isActive: false },
+  ]);
 
   const handleUpgrade = (level, cost) => {
     if (level <= boosterLevel || points < cost) return;
