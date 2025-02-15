@@ -49,7 +49,6 @@ export const claimTokens = async (telegramId) => {
 export const getFriends = async (telegramId) => {
   try {
     const response = await api.get(`/get-friends/${telegramId}`, {});
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error("Error getting friends:", error);
@@ -60,7 +59,6 @@ export const getFriends = async (telegramId) => {
 export const getRefLink = async (telegramId) => {
   try {
     const response = await api.get(`/referral-link/${telegramId}`, {});
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error("Error getting referral link:", error);
