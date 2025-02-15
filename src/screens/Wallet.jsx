@@ -1,23 +1,94 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom"; // Import the useNavigate hook
 import homepageImage from "../assets/Splash/Frame 3.png";
+import { useTonConnectUI } from "@tonconnect/ui-react";
+import { Address } from "@ton/core";
 import star from "../assets/Home/Star.png";
 import profileIcon from "../assets/Home/Profile Icon.png";
 import walletIcon from "../assets/Wallet/Icon.png";
 import { TelegramContext } from "../context/TelegramContext";
+import { getProfile } from "../utils/api";
 
 const Wallet = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { username, telegramId } = useContext(TelegramContext);
+  const [userPoints, setUserPoints] = useState(0);
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    if (telegramId) {
+      getProfile(telegramId)
+        .then((data) => {
+          setUserPoints(data.data.starTokens || 0); // Assuming API returns `points`
+          setUserId(data.data._id);
+        })
+        .catch((error) => console.error("Error fetching profile:", error));
+    }
+  }, [telegramId]);
+
+  const [tonConnectUI] = useTonConnectUI();
+  const [tonWalletAddress, setTonWalletAddress] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const handleWalletConnection = useCallback((address) => {
+    setTonWalletAddress(address);
+    localStorage.setItem("tonWalletAddress", address);
+    console.log("Wallet connected successfully!", address);
+    setIsLoading(false);
+  }, []);
+
+  // const handleWalletDisconnection = useCallback(() => {
+  //   setTonWalletAddress(null);
+  //   console.log("Wallet disconnected successfully!");
+  //   setIsLoading(false);
+  // }, []);
+
+  useEffect(() => {
+    const checkWalletConnection = async () => {
+      if (tonConnectUI.account?.address) {
+        handleWalletConnection(tonConnectUI.account?.address);
+      } else {
+        // handleWalletDisconnection();
+      }
+    };
+
+    checkWalletConnection();
+
+    const unsubscribe = tonConnectUI.onStatusChange((wallet) => {
+      if (wallet) {
+        handleWalletConnection(wallet.account.address);
+      } else {
+        // handleWalletDisconnection();
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [tonConnectUI, handleWalletConnection,]);
+
+  const handleWalletAction = async () => {
+    try {
+      if (tonConnectUI.connected) {
+        setIsLoading(true);
+        await tonConnectUI.disconnect();
+      } else {
+        await tonConnectUI.openModal();
+      }
+    } catch (error) {
+      console.error("Error during wallet connection/disconnection:", error);
+      setError("Wallet connection failed. Please try again.");
+    }
+  };
+
+  const formatAddress = (address) => {
+    const tempAddress = Address.parse(address).toString();
+    return `${tempAddress.slice(0, 4)}...${tempAddress.slice(-4)}`;
+  };
+
 
   return (
     <div className="container min-h-screen w-full bg-black flex flex-col justify-end items-center relative">
-      {/* Background Image */}
-      {/* <img
-      src={homepageImage}
-      alt="Background"
-      className="absolute top-0 left-0 w-full h-full object-cover"
-    /> */}
       <div className="absolute top-4 left-0 w-full flex justify-between px-4 p-4 items-center">
         {/* Image and Text at Top Left */}
         <div className="flex items-center gap-1">
@@ -36,7 +107,7 @@ const Wallet = () => {
             alt="star"
             className="w-6 h-6 object-cover rounded-full"
           />
-          <p className="text-lg font-bold text-white">2,403,280</p>
+          <p className="text-lg font-bold text-white">{userPoints}</p>
         </div>
       </div>
 
@@ -105,7 +176,10 @@ const Wallet = () => {
 
             {/* Buttons */}
             <div className="mt-6 space-y-3">
-              <button className="w-full bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black py-3  font-bold">
+              <button
+                className="w-full bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black py-3  font-bold"
+                onClick={handleWalletAction}
+              >
                 Connect Wallet
               </button>
               <button

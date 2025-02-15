@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import profileIcon from "../assets/Home/Profile Icon.png";
 import star from "../assets/Home/Star.png";
 import homepageImage from "../assets/Splash/Frame 3.png";
@@ -6,6 +6,8 @@ import animatedGif from "../assets/Splash/Star Effect.gif";
 import linkButton from "../assets/Friends/Component/Attachment, Link.png";
 import checkButton from "../assets/Friends/Component/check.png";
 import { TelegramContext } from "../context/TelegramContext";
+import { getFriends, getProfile, getRefLink } from "../utils/api";
+import { ToastContainer, toast } from "react-toastify";
 
 const referralRewards = [
   { invites: 3, reward: "100" },
@@ -17,17 +19,70 @@ const referralRewards = [
 
 const Friends = () => {
   const { username, telegramId } = useContext(TelegramContext);
+  const [userPoints, setUserPoints] = useState(0);
+  const [referralLink, setReferralLink] = useState("");
+  const [referralsCount, setReferralsCount] = useState(0);
+  const [linkGenerated, setLinkGenerated] = useState(false);
+
+  useEffect(() => {
+    if (telegramId) {
+      getProfile(telegramId)
+        .then((data) => {
+          setUserPoints(data.data.starTokens || 0); // Assuming API returns `points`
+        })
+        .catch((error) => console.error("Error fetching profile:", error));
+    }
+  }, [telegramId]);
+
+  useEffect(() => {
+    if (telegramId) {
+      getFriends(telegramId)
+        .then((data) => {
+          setReferralsCount(data.data.friendsCount || 0); // Assuming API returns `points`
+        })
+        .catch((error) => console.error("Error getting friends:", error));
+    }
+  }, [telegramId]);
+
   const [invites, setInvites] = useState(0);
   const [receivedRewards, setReceivedRewards] = useState([]);
+
+  const handleInvite = async () => {
+    try {
+      if (!telegramId) {
+        toast.error("User data not available.");
+        return;
+      }
+
+      const data = await getRefLink(telegramId);
+      if (data?.data?.referralLink) {
+        setReferralLink(data.data.referralLink);
+        setLinkGenerated(true);
+        toast.success("Invite link generated successfully!");
+      } else {
+        toast.error("Failed to generate invite link.");
+      }
+    } catch (error) {
+      console.error("Error generating invite link:", error);
+      toast.error("An error occurred. Please try again.");
+    }
+  };
+  // Function to copy referral link
+  const handleCopy = () => {
+    if (!referralLink) return;
+  
+    navigator.clipboard.writeText(referralLink)
+      .then(() => {
+        toast.success("Invite link copied to clipboard!");
+      })
+      .catch(() => {
+        toast.error("Failed to copy the invite link.");
+      });
+  };
 
   if (!username || !telegramId) {
     return <p className="text-red-500">Error: User data not available.</p>;
   }
-
-  // Function to handle inviting friends
-  const handleInvite = () => {
-    setInvites((prev) => prev + 1); // Ensure proper state update
-  };
 
   // Function to handle receiving rewards
   const handleReceiveReward = (invitesRequired) => {
@@ -62,14 +117,16 @@ const Friends = () => {
         </div>
         <div className="flex items-center gap-2">
           <img src={star} alt="Star" className="w-6 h-6 object-cover" />
-          <p className="text-lg font-bold">2,403,320</p>
+          <p className="text-lg font-bold">{userPoints}</p>
         </div>
       </div>
 
       {/* Friends Count and Referral Info */}
       <div className="text-center w-100 rounded-xs mt-6">
         <p className="text-sm text-[#999999] mb-2 font-normal">Friends</p>
-        <p className="text-5xl text-[#EEEEF0] font-black mb-5">{invites}</p>
+        <p className="text-5xl text-[#EEEEF0] font-black mb-5">
+          {referralsCount}
+        </p>
         <p className="text-sm flex justify-center space-x-1">
           <span className="bg-gradient-to-l from-[#C7F0FF] to-[#88D2EE] bg-clip-text text-transparent font-black">
             +50
@@ -127,14 +184,18 @@ const Friends = () => {
         <button
           className="p-3 w-full bg-gradient-to-l from-[#C7F0FF] to-[#88D2EE] text-black text-center rounded-none cursor-pointer font-bold"
           onClick={handleInvite}
-          aria-label="Invite friends"
         >
           Invite Friends
-        </button>
-        <button className="border-2 border-[#88D2EE] p-3 cursor-pointer">
+          </button>
+        <button
+          className="border-2 border-[#88D2EE] p-3 cursor-pointer"
+          onClick={handleCopy}
+          disabled={!referralLink}
+        >
           <img src={linkButton} alt="Link Button" className="rounded-none" />
         </button>
       </div>
+      <ToastContainer />
     </div>
   );
 };

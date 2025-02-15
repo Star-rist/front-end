@@ -6,6 +6,7 @@ import profileIcon from "../assets/Home/Profile Icon.png";
 import screen from "../assets/Home/Screen.png";
 import star from "../assets/Home/Star.png";
 import character from "../assets/Home/Character.png";
+import { getProfile } from "../utils/api";
 
 const FOUR_HOURS = 4 * 60 * 60 * 1000; // 4 hours in milliseconds
 const TIMER_KEY = "lastCollectedTime"; // Key to store timestamp in localStorage
@@ -16,6 +17,8 @@ function Home() {
   // Extract parameters from the URL
   const telegramIdFromUrl = queryParams.get("telegramId");
   const usernameFromUrl = queryParams.get("username");
+
+  const [userPoints, setUserPoints] = useState(0); // Store user points
 
   // Initialize state from localStorage
   const [telegramId, setTelegramId] = useState(() => {
@@ -39,8 +42,15 @@ function Home() {
     }
   }, [telegramIdFromUrl, usernameFromUrl, telegramId, username]);
 
-  console.log("Telegram ID:", telegramId);
-  console.log("Username:", username);
+  useEffect(() => {
+    if (telegramId) {
+      getProfile(telegramId)
+        .then((data) => {
+          setUserPoints(data.data.starTokens || 0); // Assuming API returns `points`
+        })
+        .catch((error) => console.error("Error fetching profile:", error));
+    }
+  }, [telegramId]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState(FOUR_HOURS);
@@ -102,7 +112,7 @@ function Home() {
         <div className="relative w-65 top-[-100px]">
           <img src={screen} alt="screen" className="w-full object-cover" />
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-4xl font-bold">
-            <p>2403280</p>
+            <p>{userPoints}</p>
           </div>
         </div>
 

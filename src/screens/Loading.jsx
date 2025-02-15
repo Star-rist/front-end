@@ -13,8 +13,6 @@ const Loading = () => {
   const telegramId = queryParams.get("telegramId");
   const username = queryParams.get("username");
 
-
-
   console.log("Telegram ID:", telegramId);
   console.log("Username:", username);
   const [step, setStep] = useState(1);

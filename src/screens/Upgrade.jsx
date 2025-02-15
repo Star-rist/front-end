@@ -18,6 +18,7 @@ import upgradeLv7 from "../assets/Update/Component/7.png";
 import upgradeLv8 from "../assets/Update/Component/8.png";
 import upgradeLv9 from "../assets/Update/Component/9.png";
 import upgradeLv10 from "../assets/Update/Component/10.png";
+import { getProfile } from "../utils/api.js";
 
 const boosterIcons = {
   0: upgradeLv0,
@@ -103,7 +104,7 @@ const CurrentBooster = ({ username, points, boosterLevel }) => {
             alt="star"
             className="w-6 h-6 object-cover rounded-full"
           />
-          <p className="text-lg font-bold text-white">2,403,280</p>
+          <p className="text-lg font-bold text-white">{points}</p>
         </div>
       </div>
 
@@ -128,21 +129,32 @@ const CurrentBooster = ({ username, points, boosterLevel }) => {
 };
 
 function Upgrade() {
-  const { username } = useContext(TelegramContext);
-  const [boosterLevel, setBoosterLevel] = useState(0);
-  const [points, setPoints] = useState(2403280);
-  const [upgrades, setUpgrades] = useState([
-    { level: 0, earnings: "10", cost: 0, isActive: true },
-    { level: 1, earnings: "20", cost: 500, isActive: false },
-    { level: 2, earnings: "25", cost: 750, isActive: false },
-    { level: 3, earnings: "30", cost: 1000, isActive: false },
-    { level: 4, earnings: "35", cost: 1250, isActive: false },
-    { level: 5, earnings: "40", cost: 1500, isActive: false },
-    { level: 6, earnings: "45", cost: 1750, isActive: false },
-    { level: 7, earnings: "50", cost: 2000, isActive: false },
-    { level: 8, earnings: "55", cost: 2250, isActive: false },
-    { level: 9, earnings: "60", cost: 2500, isActive: false },
-    { level: 10, earnings: "65", cost: 2750, isActive: false },
+  const { username, telegramId } = useContext(TelegramContext);
+
+  const [userPoints, setUserPoints] = useState(0); // Store user points
+
+  useEffect(() => {
+    if (telegramId) {
+      getProfile(telegramId)
+        .then((data) => {
+          setUserPoints(data.data.starTokens || 0); // Assuming API returns `points`
+        })
+        .catch((error) => console.error("Error fetching profile:", error));
+    }
+  }, [telegramId]);
+
+  const [upgrades] = useState([
+    { level: 0, earnings: "10" },
+    { level: 1, earnings: "20", cost: "500", isActive: false },
+    { level: 2, earnings: "25", cost: "750", isActive: false },
+    { level: 3, earnings: "30", cost: "1,000", isActive: false },
+    { level: 4, earnings: "35", cost: "1,250", isActive: false },
+    { level: 5, earnings: "40", cost: "1,500", isActive: true },
+    { level: 6, earnings: "45", cost: "1,750", isActive: false },
+    { level: 7, earnings: "50", cost: "2,000", isActive: false },
+    { level: 8, earnings: "55", cost: "2,250", isActive: false },
+    { level: 9, earnings: "60", cost: "2,500", isActive: false },
+    { level: 10, earnings: "65", cost: "2,750", isActive: false },
   ]);
 
   const handleUpgrade = (level, cost) => {
@@ -169,13 +181,12 @@ function Upgrade() {
         alt="Animation"
         className="absolute w-full h-full object-cover opacity-100 pointer-events-none"
       />
-      <CurrentBooster
-        username={username}
-        points={points}
-        boosterLevel={boosterLevel}
-      />
 
-      <div className="relative z-10 flex flex-col items-center space-y-4 mt-48 mb-30 overflow-y-auto max-h-[77vh] w-full px-4 md:px-6">
+      {/* Current Booster Section */}
+      <CurrentBooster username={username} points={userPoints} boosterLevel={5} />
+
+      {/* Upgrade List - Scrollable */}
+      <div className="relative z-10 flex flex-col items-center space-y-4 mt-28 overflow-y-auto max-h-[77vh] w-full px-6">
         {upgrades.map((upgrade, index) => (
           <UpgradeBox key={index} {...upgrade} onUpgrade={handleUpgrade} />
         ))}

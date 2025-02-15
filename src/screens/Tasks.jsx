@@ -4,21 +4,39 @@ import animatedGif from "../assets/Splash/Star Effect.gif";
 import star from "../assets/Home/Star.png";
 import profileIcon from "../assets/Home/Profile Icon.png";
 import { TelegramContext } from "../context/TelegramContext";
+import { getProfile } from "../utils/api";
+import mediumIcon from "../assets/Task/Component/Logo.png";
+import telegramIcon from "../assets/Task/Component/Path-3.png";
+import xIcon from "../assets/Task/Component/Twitter.png";
+import arrowIcon from "../assets/Task/Component/Arrow.png";
 
-const TaskBox = ({ iconLeft, points, text, secondText, imgAlt }) => (
+const iconMap = {
+  medium: mediumIcon,
+  telegram: telegramIcon,
+  x: xIcon,
+};
+
+const bgColorMap = {
+  medium: "#FFFFFF", // White for Medium
+  x: "black", // No background for Twitter (X)
+  telegram: "#2AABEE", // Blue for Telegram
+};
+
+const TaskBox = ({ iconLeft, points, text, secondText, imgAlt, link }) => (
   <div className="flex items-center justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-95 max-w-md mx-auto bg-[#121315] mb-4">
     {/* Left Icon */}
     <div className="flex gap-4">
       <div
-        className={`p-4 w-14 rounded-xs ${
-          iconLeft === "medium"
-            ? "bg-black"
-            : iconLeft === "x"
-            ? "bg-black"
-            : "bg-blue-400"
-        }`}
+        className="p-4 w-14 rounded-xs"
+        style={{ backgroundColor: bgColorMap[iconLeft] }}
       >
-        <i className={`fab fa-${iconLeft} text-white text-xl`} />
+        <img
+          src={iconMap[iconLeft]}
+          alt={iconLeft}
+          className={`w-6 h-6 ${
+            iconLeft === "medium" ? "filter brightness-0" : ""
+          }`}
+        />
       </div>
     </div>
 
@@ -40,15 +58,27 @@ const TaskBox = ({ iconLeft, points, text, secondText, imgAlt }) => (
       </div>
     </div>
 
-    {/* Greater than sign on the right */}
-    <div className="text-xl text-white">&gt;</div>
+    {/* Clickable Arrow Icon */}
+    <a href={link} target="_blank" rel="noopener noreferrer">
+      <img src={arrowIcon} alt="arrow" className="w-3 h-4 cursor-pointer" />
+    </a>
   </div>
 );
 
 function Tasks() {
   const { username, telegramId } = useContext(TelegramContext);
-
+  const [userPoints, setUserPoints] = useState(0);
   const [activeTab, setActiveTab] = useState("Daily");
+
+  useEffect(() => {
+    if (telegramId) {
+      getProfile(telegramId)
+        .then((data) => {
+          setUserPoints(data.data.starTokens || 0); // Assuming API returns `points`
+        })
+        .catch((error) => console.error("Error fetching profile:", error));
+    }
+  }, [telegramId]);
 
   return (
     <div className="container min-h-screen w-full bg-black flex flex-col justify-center items-center relative">
@@ -85,7 +115,7 @@ function Tasks() {
             alt="star"
             className="w-6 h-6 object-cover rounded-full"
           />
-          <p className="text-lg font-bold text-white">2,403,280</p>
+          <p className="text-lg font-bold text-white">{userPoints}</p>
         </div>
       </div>
 
@@ -131,6 +161,7 @@ function Tasks() {
           secondText="You can earn"
           points="1,250,000"
           imgAlt="star"
+          link="https://medium.com/@yourprofile"
         />
         <TaskBox
           iconLeft="x"
@@ -138,6 +169,7 @@ function Tasks() {
           secondText="You can earn"
           imgAlt="star"
           points="3,000,000"
+          link="https://x.com/StaristSpace"
         />
         <TaskBox
           iconLeft="x"
@@ -145,13 +177,15 @@ function Tasks() {
           secondText="You can earn"
           imgAlt="star"
           points="1,500,000"
+          link="https://x.com/StaristSpace"
         />
         <TaskBox
           iconLeft="telegram"
           text="Join us on Telegram"
-          secondText="Second Text 4"
+          secondText="You can earn"
           imgAlt="star"
           points="2,000,000"
+          link="https://t.me/StaristSpace"
         />
       </div>
     </div>
