@@ -4,9 +4,13 @@ import homepageImage from "../assets/Home/image 184.png";
 import animatedGif from "../assets/Splash/Star Effect.gif";
 import profileIcon from "../assets/Home/Profile Icon.png";
 import screen from "../assets/Home/Screen.png";
+import updateStar from "../assets/Update/Component/updateStar.png";
 import star from "../assets/Home/Star.png";
 import character from "../assets/Home/Character.png";
-import { getProfile } from "../utils/api";
+import characterJumping from "../assets/Home/Character Jumping.png";
+import { claimTokens, claimTokensInstantly, getProfile } from "../utils/api";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const FOUR_HOURS = 4 * 60 * 60 * 1000; // 4 hours in milliseconds
 const TIMER_KEY = "lastCollectedTime"; // Key to store timestamp in localStorage
@@ -14,13 +18,9 @@ const TIMER_KEY = "lastCollectedTime"; // Key to store timestamp in localStorage
 function Home() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  // Extract parameters from the URL
   const telegramIdFromUrl = queryParams.get("telegramId");
   const usernameFromUrl = queryParams.get("username");
-
-  const [userPoints, setUserPoints] = useState(0); // Store user points
-
-  // Initialize state from localStorage
+  const [userPoints, setUserPoints] = useState(0);
   const [telegramId, setTelegramId] = useState(() => {
     return localStorage.getItem("telegramId") || "";
   });
@@ -29,7 +29,6 @@ function Home() {
     return localStorage.getItem("username") || "";
   });
 
-  // Store values in localStorage when received from URL
   useEffect(() => {
     if (telegramIdFromUrl && telegramIdFromUrl !== telegramId) {
       setTelegramId(telegramIdFromUrl);
@@ -42,40 +41,93 @@ function Home() {
     }
   }, [telegramIdFromUrl, usernameFromUrl, telegramId, username]);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(FOUR_HOURS);
+  const [isCharacterJumping, setIsCharacterJumping] = useState(false);
+  const [characterPosition, setCharacterPosition] = useState("bottom-70"); // Initial position
+
   useEffect(() => {
     if (telegramId) {
       getProfile(telegramId)
         .then((data) => {
-          setUserPoints(data.data.starTokens || 0); // Assuming API returns `points`
+          const lastClaimTime = new Date(data.data.lastClaimTime); // Convert string to Date
+          const now = Date.now(); // Get current time
+          const elapsedTime = now - lastClaimTime.getTime(); // Time difference in milliseconds
+          const remainingTime = Math.max(FOUR_HOURS - elapsedTime, 0); // Calculate remaining time
+
+          setUserPoints(data.data.starTokens || 0); // Update user points
+
+          setTimeLeft(remainingTime); // Set remaining time for countdown
         })
         .catch((error) => console.error("Error fetching profile:", error));
     }
   }, [telegramId]);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(FOUR_HOURS);
-
   useEffect(() => {
-    // Check last collected time from localStorage
-    const lastCollected = localStorage.getItem(TIMER_KEY);
-    if (lastCollected) {
-      const elapsedTime = Date.now() - parseInt(lastCollected, 10);
-      const remainingTime = Math.max(FOUR_HOURS - elapsedTime, 0);
-      setTimeLeft(remainingTime);
-    }
-
     const interval = setInterval(() => {
-      setTimeLeft((prev) => Math.max(prev - 1000, 0));
+      setTimeLeft((prev) => {
+        if (prev <= 0) {
+          clearInterval(interval); // Stop the timer once it reaches 0
+          setIsCharacterJumping(true); // Trigger character change
+          setCharacterPosition("bottom-75"); // Move the character up
+          return 0;
+        }
+        return prev - 1000; // Decrease time left every second
+      });
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(interval); // Clean up interval on unmount
   }, []);
 
-  const handleCollect = () => {
-    // Store the current time as the last collected time
-    localStorage.setItem(TIMER_KEY, Date.now().toString());
-    setTimeLeft(FOUR_HOURS);
-    setIsOpen(false);
+  const handleClaimTokens = async () => {
+    if (!telegramId) return;
+
+    try {
+      const response = await claimTokens(telegramId);
+      if (response.status === "success") {
+        const currentTime = Date.now();
+        localStorage.setItem(TIMER_KEY, currentTime.toString());
+        setTimeLeft(FOUR_HOURS);
+        setIsOpen(false);
+        toast.success(response.message);
+        getProfile(telegramId).then((data) => {
+          setUserPoints(data.data.starTokens || 0);
+        });
+        setIsCharacterJumping(false); // Trigger character change
+      } else {
+        toast.error("Failed to claim tokens. Please try again.");
+      }
+    } catch (error) {
+      toast.error("Error claiming tokens. Please try again.");
+      console.error("Error claiming tokens:", error);
+    }
+  };
+
+  const handleClaimInstantly = async () => {
+    if (!telegramId) return;
+
+    try {
+      const response = await claimTokensInstantly(telegramId);
+      console.log(response);
+      if (response.status === "success") {
+        const currentTime = Date.now();
+        localStorage.setItem(TIMER_KEY, currentTime.toString());
+        setTimeLeft(FOUR_HOURS);
+        setIsOpen(false);
+        toast.success(response.message);
+        getProfile(telegramId).then((data) => {
+          setUserPoints(data.data.starTokens || 0);
+        });
+      } else {
+        toast.error("Failed to claim tokens instantly. Please try again.");
+      }
+    } catch (error) {
+      toast.error(
+        "Error: " +
+        error.response.data.message
+      );
+      console.error("Error claiming tokens instantly:", error);
+    }
   };
 
   const percentage = ((FOUR_HOURS - timeLeft) / FOUR_HOURS) * 100;
@@ -125,9 +177,11 @@ function Home() {
       </div>
 
       {/* Character Image */}
-      <div className="absolute bottom-75 left-1/2 transform -translate-x-1/2">
+      <div
+        className={`absolute ${characterPosition} left-1/2 transform -translate-x-1/2`}
+      >
         <img
-          src={character}
+          src={isCharacterJumping ? characterJumping : character} // Change image
           alt="character"
           className="w-65 h-70 object-cover"
         />
@@ -159,7 +213,13 @@ function Home() {
       <div className="absolute bottom-37 left-1/2 transform -translate-x-1/2 z-10">
         <div
           className="w-95 max-w-md sm:w-48 h-12 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer"
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            if (timeLeft === 0) {
+              handleClaimTokens(); // Free claim if 4 hours have passed
+            } else {
+              setIsOpen(true); // Open modal for instant claim
+            }
+          }}
         >
           Collect Now
         </div>
@@ -183,9 +243,12 @@ function Home() {
 
             {/* Buttons */}
             <div className="mt-6 space-y-3">
-              <button className="w-full bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black py-3 font-bold flex items-center justify-center gap-2">
+              <button
+                className="w-full bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black py-3 font-bold flex items-center justify-center gap-2"
+                onClick={handleClaimInstantly}
+              >
                 <span>Confirm and Pay</span>
-                <img src={profileIcon} alt="star" className="w-5 h-5" />
+                <img src={updateStar} alt="star" className="w-5 h-5" />
                 <span>30</span>
               </button>
               <button
@@ -198,6 +261,8 @@ function Home() {
           </div>
         </div>
       )}
+
+      <ToastContainer />
     </div>
   );
 }

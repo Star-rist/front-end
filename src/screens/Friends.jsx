@@ -6,7 +6,12 @@ import animatedGif from "../assets/Splash/Star Effect.gif";
 import linkButton from "../assets/Friends/Component/Attachment, Link.png";
 import checkButton from "../assets/Friends/Component/check.png";
 import { TelegramContext } from "../context/TelegramContext";
-import { getFriends, getProfile, getRefLink } from "../utils/api";
+import {
+  getFriends,
+  getProfile,
+  getRefLink,
+  referralReward,
+} from "../utils/api";
 import { ToastContainer, toast } from "react-toastify";
 
 const referralRewards = [
@@ -19,6 +24,7 @@ const referralRewards = [
 
 const Friends = () => {
   const { username, telegramId } = useContext(TelegramContext);
+  const [userId, setUserId] = useState("");
   const [userPoints, setUserPoints] = useState(0);
   const [referralLink, setReferralLink] = useState("");
   const [referralsCount, setReferralsCount] = useState(0);
@@ -29,18 +35,17 @@ const Friends = () => {
       getProfile(telegramId)
         .then((data) => {
           setUserPoints(data.data.starTokens || 0); // Assuming API returns `points`
+          setUserId(data.data._id); // Store userId
+          setReferralsCount(data.data.referralCount || 0); // Assuming API returns `points`
         })
         .catch((error) => console.error("Error fetching profile:", error));
     }
   }, [telegramId]);
 
   useEffect(() => {
-    if (telegramId) {
-      getFriends(telegramId)
-        .then((data) => {
-          setReferralsCount(data.data.friendsCount || 0); // Assuming API returns `points`
-        })
-        .catch((error) => console.error("Error getting friends:", error));
+    const storedRewards = localStorage.getItem(`receivedRewards-${telegramId}`);
+    if (storedRewards) {
+      setReceivedRewards(JSON.parse(storedRewards));
     }
   }, [telegramId]);
 
@@ -70,8 +75,9 @@ const Friends = () => {
   // Function to copy referral link
   const handleCopy = () => {
     if (!referralLink) return;
-  
-    navigator.clipboard.writeText(referralLink)
+
+    navigator.clipboard
+      .writeText(referralLink)
       .then(() => {
         toast.success("Invite link copied to clipboard!");
       })
@@ -80,17 +86,50 @@ const Friends = () => {
       });
   };
 
-  if (!username || !telegramId) {
-    return <p className="text-red-500">Error: User data not available.</p>;
-  }
+  // if (!username || !telegramId) {
+  //   return <p className="text-red-500">Error: User data not available.</p>;
+  // }
 
   // Function to handle receiving rewards
-  const handleReceiveReward = (invitesRequired) => {
-    if (
-      invites >= invitesRequired &&
-      !receivedRewards.includes(invitesRequired)
-    ) {
-      setReceivedRewards((prev) => [...prev, invitesRequired]);
+  const handleReceiveReward = async (invitesRequired) => {
+    if (referralsCount < invitesRequired) {
+      toast.error("Not enough invites to claim this reward.");
+      return;
+    }
+
+    if (receivedRewards.includes(invitesRequired)) {
+      toast.info("You have already claimed this reward.");
+      return;
+    }
+
+    const rewardItem = referralRewards.find(
+      (item) => item.invites === invitesRequired
+    );
+    const rewardAmount = rewardItem ? rewardItem.reward : "unknown";
+
+    try {
+      const response = await referralReward(userId, invitesRequired);
+
+      if (response?.status === "success") {
+        const updatedRewards = [...receivedRewards, invitesRequired];
+        setReceivedRewards(updatedRewards);
+
+        // Store in localStorage
+        localStorage.setItem(
+          `receivedRewards-${telegramId}`,
+          JSON.stringify(updatedRewards)
+        );
+
+        const updatedProfile = await getProfile(telegramId);
+        setUserPoints(updatedProfile.data.starTokens || 0);
+
+        toast.success(`Successfully claimed ${rewardAmount} stars!`);
+      } else {
+        toast.error(response.message || "Failed to claim reward.");
+      }
+    } catch (error) {
+      console.error("Error claiming reward:", error);
+      toast.error("An error occurred while claiming the reward.");
     }
   };
 
@@ -186,7 +225,7 @@ const Friends = () => {
           onClick={handleInvite}
         >
           Invite Friends
-          </button>
+        </button>
         <button
           className="border-2 border-[#88D2EE] p-3 cursor-pointer"
           onClick={handleCopy}

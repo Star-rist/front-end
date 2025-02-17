@@ -6,7 +6,7 @@ export const tonConnect = new TonConnect({
   manifestUrl: "https://yourdomain.com/tonconnect-manifest.json", // Change this to your actual hosted manifest
 });
 
-const API_BASE_URL = "https://starist-o3ze.onrender.com/api/v1";
+const API_BASE_URL = "https://starist.onrender.com/api/v1";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -18,7 +18,6 @@ const api = axios.create({
 export const getProfile = async (telegramId) => {
   try {
     const response = await api.get(`/profile/${telegramId}`, {});
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error("Error fetching user profile:", error);
@@ -36,15 +35,15 @@ export const claimTokens = async (telegramId) => {
   }
 };
 
-// export const connectLink = async (userId) => {
-//   try {
-//     const response = await api.post(`/wallet/connect-link`, { userId });
-//     return response.data;
-//   } catch (error) {
-//     console.error("Error fetching user profile:", error);
-//     throw error;
-//   }
-// };
+export const claimTokensInstantly = async (telegramId) => {
+  try {
+    const response = await api.post(`/claimTokenInstantly`, { telegramId });
+    return response.data;
+  } catch (error) {
+    console.error("Error claiming tokens:", error);
+    throw error;
+  }
+};
 
 export const getFriends = async (telegramId) => {
   try {
@@ -65,7 +64,29 @@ export const getRefLink = async (telegramId) => {
     throw error;
   }
 };
+
+export const upgradeBooster = async (telegramId) => {
+  try {
+    const response = await api.post(`/upgrade`, { telegramId });
+    return response.data;
+  } catch (error) {
+    console.error("Error upgrading boosterPack:", error);
+    throw error;
+  }
+};
+
+export const referralReward = async (userId) => {
+  try {
+    const response = await api.post(`/referral-rewards`, { userId });
+    console.log(response)
+    return response.data;
+  } catch (error) {
+    console.error("Error upgrading boosterPack:", error);
+    throw error;
+  }
+};
 // 1247974918   bit_cipher
 // 7444825599   emmy0932
 
 // http://localhost:5173/home?telegramId=7444825599&username=emmy0932
+// https://starist.vercel.app?telegramId=7444825599&username=emmy0932

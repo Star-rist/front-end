@@ -5,6 +5,7 @@ import star from "../assets/Home/Star.png";
 import updateStar from "../assets/Update/Component/updateStar.png";
 import profileIcon from "../assets/Home/Profile Icon.png";
 import { TelegramContext } from "../context/TelegramContext";
+import { ToastContainer, toast } from "react-toastify";
 
 // Import booster icons for each level
 import upgradeLv0 from "../assets/Update/Component/0.png";
@@ -18,7 +19,7 @@ import upgradeLv7 from "../assets/Update/Component/7.png";
 import upgradeLv8 from "../assets/Update/Component/8.png";
 import upgradeLv9 from "../assets/Update/Component/9.png";
 import upgradeLv10 from "../assets/Update/Component/10.png";
-import { getProfile } from "../utils/api.js";
+import { getProfile, upgradeBooster } from "../utils/api.js";
 
 const boosterIcons = {
   0: upgradeLv0,
@@ -66,10 +67,11 @@ const UpgradeBox = ({ level, earnings, cost, isActive, onUpgrade }) => (
     </div>
 
     <div className="flex items-center">
-      {isActive && (
+      {isActive ? (
         <span className="text-sm font-bold text-white mr-2">Activated</span>
-      )}
-      {level !== 0 && !isActive && (
+      ) : level === 0 ? (
+        <span className="text-sm font-bold text-white">Free</span>
+      ) : (
         <>
           <img
             src={updateStar}
@@ -130,43 +132,91 @@ const CurrentBooster = ({ username, points, boosterLevel }) => {
 
 function Upgrade() {
   const { username, telegramId } = useContext(TelegramContext);
+  // const [boosterLevel, setBoosterLevel] = useState(0);
 
   const [userPoints, setUserPoints] = useState(0); // Store user points
+  const [booster, setbooster] = useState(0); // Store user points
 
   useEffect(() => {
     if (telegramId) {
       getProfile(telegramId)
         .then((data) => {
-          setUserPoints(data.data.starTokens || 0); // Assuming API returns `points`
+          const userBoosterLevel = data.data.boosterLevel || 0;
+          setbooster(userBoosterLevel);
+          setUserPoints(data.data.starTokens || 0);
+
+          // Ensure only the correct booster level is active
+          setUpgrades((prevUpgrades) =>
+            prevUpgrades.map((upg) => ({
+              ...upg,
+              isActive: upg.level === userBoosterLevel, // Activate only the current booster
+            }))
+          );
         })
         .catch((error) => console.error("Error fetching profile:", error));
     }
   }, [telegramId]);
 
-  const [upgrades] = useState([
-    { level: 0, earnings: "10" },
-    { level: 1, earnings: "20", cost: "500", isActive: false },
-    { level: 2, earnings: "25", cost: "750", isActive: false },
-    { level: 3, earnings: "30", cost: "1,000", isActive: false },
-    { level: 4, earnings: "35", cost: "1,250", isActive: false },
-    { level: 5, earnings: "40", cost: "1,500", isActive: true },
-    { level: 6, earnings: "45", cost: "1,750", isActive: false },
-    { level: 7, earnings: "50", cost: "2,000", isActive: false },
-    { level: 8, earnings: "55", cost: "2,250", isActive: false },
-    { level: 9, earnings: "60", cost: "2,500", isActive: false },
-    { level: 10, earnings: "65", cost: "2,750", isActive: false },
+  const [upgrades, setUpgrades] = useState([
+    { level: 0, earnings: "10", cost: 0, isActive: true },
+    { level: 1, earnings: "20", cost: 500, isActive: false },
+    { level: 2, earnings: "25", cost: 750, isActive: false },
+    { level: 3, earnings: "30", cost: 1000, isActive: false },
+    { level: 4, earnings: "35", cost: 1250, isActive: false },
+    { level: 5, earnings: "40", cost: 1500, isActive: false },
+    { level: 6, earnings: "45", cost: 1750, isActive: false },
+    { level: 7, earnings: "50", cost: 2000, isActive: false },
+    { level: 8, earnings: "55", cost: 2250, isActive: false },
+    { level: 9, earnings: "60", cost: 2500, isActive: false },
+    { level: 10, earnings: "65", cost: 2750, isActive: false },
   ]);
 
-  const handleUpgrade = (level, cost) => {
-    if (level <= boosterLevel || points < cost) return;
-    setBoosterLevel(level);
-    setPoints(points - cost);
-    setUpgrades(
-      upgrades.map((upg) => ({
-        ...upg,
-        isActive: upg.isActive || upg.level === level,
-      }))
-    );
+  const handleUpgrade = async (level, cost) => {
+    if (!telegramId) {
+      toast.error("Error: Telegram ID is required.");
+      return;
+    }
+
+    if (level <= booster) {
+      toast.info("You've already unlocked this level.");
+      return;
+    }
+
+    if (level !== booster + 1) {
+      toast.warning(
+        "You must upgrade sequentially. Upgrade the next level first."
+      );
+      return;
+    }
+
+    if (userPoints < cost) {
+      toast.warning("Insufficient points. Earn more to upgrade!");
+      return;
+    }
+
+    try {
+      const response = await upgradeBooster(telegramId);
+
+      if (response.message === "Upgrade successful!") {
+        setbooster(level);
+        setUserPoints((prevPoints) => prevPoints - cost);
+
+        // Activate only the newly upgraded booster
+        setUpgrades(
+          upgrades.map((upg) => ({
+            ...upg,
+            isActive: upg.level === level,
+          }))
+        );
+
+        toast.success(`Upgrade to Booster Level ${level} was successful! 🎉`);
+      } else {
+        toast.error(`Upgrade failed: ${response.message}`);
+      }
+    } catch (error) {
+      toast.error("An error occurred. Please try again.");
+      console.error("Error upgrading booster:", error);
+    }
   };
 
   return (
@@ -183,7 +233,11 @@ function Upgrade() {
       />
 
       {/* Current Booster Section */}
-      <CurrentBooster username={username} points={userPoints} boosterLevel={5} />
+      <CurrentBooster
+        username={username}
+        points={userPoints}
+        boosterLevel={booster}
+      />
 
       {/* Upgrade List - Scrollable */}
       <div className="relative z-10 flex flex-col items-center space-y-4 mt-28 overflow-y-auto max-h-[77vh] w-full px-6">
@@ -191,6 +245,7 @@ function Upgrade() {
           <UpgradeBox key={index} {...upgrade} onUpgrade={handleUpgrade} />
         ))}
       </div>
+      <ToastContainer />
     </div>
   );
 }
