@@ -1,7 +1,5 @@
 // import { Buffer } from "buffer";
-// import process from "process";
-// window.Buffer = window.Buffer || Buffer;
-// window.process = window.process || process;
+// window.Buffer = window.Buffer;
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { StrictMode } from "react";
