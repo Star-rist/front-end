@@ -19,9 +19,11 @@
   }
 }
 
+html,
 body {
   font-family: sans-serif;
-  overflow: hidden;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 @media (max-width: 768px) {

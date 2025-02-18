@@ -189,51 +189,56 @@ const Friends = () => {
         className="absolute top-0 left-0 w-full h-full object-cover opacity-100 -z-10 pointer-events-none"
       />
 
-      {/* Referral Rewards */}
-      <div className="overflow-y-auto max-h-90 w-100 max-w-md mt-6">
-        {referralRewards.map((reward, index) => (
-          <button
-            key={index}
-            className="relative flex items-center text-white justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-full bg-[#121315] mb-4 cursor-pointer overflow-hidden"
-            onClick={() => handleReceiveReward(reward.invites)}
-            aria-label={`Claim ${reward.reward} stars for ${reward.invites} invites`}
-          >
-            {/* Normal Content (Invites & Reward) */}
-            <span>{reward.invites} Invites</span>
-            <div className="flex items-center gap-2">
-              <img src={star} alt="Star" className="w-6 h-6 object-cover" />
-              <span className="bg-gradient-to-l from-[#C7F0FF] to-[#88D2EE] bg-clip-text text-transparent font-black">
-                {reward.reward}
-              </span>
-            </div>
 
-            {/* "Received" Overlay with Image */}
-            {receivedRewards.includes(reward.invites) && (
-              <div className="absolute inset-0 bg-[#0F0F10] flex items-center justify-center">
-                <img src={checkButton} alt="Received" className="w-5 h-5" />
-                <span className="text-[#EEEEF0] font-bold ml-2">Received</span>
+      <div className="overflow-y-auto max-h-100 w-100 max-w-md mt-4">
+        <div className="">
+          {referralRewards.map((reward, index) => (
+            <button
+              key={index}
+              className="relative flex items-center text-white justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-full bg-[#121315] mb-4 cursor-pointer overflow-hidden"
+              onClick={() => handleReceiveReward(reward.invites)}
+              aria-label={`Claim ${reward.reward} stars for ${reward.invites} invites`}
+            >
+              {/* Normal Content (Invites & Reward) */}
+              <span>{reward.invites} Invites</span>
+              <div className="flex items-center gap-2">
+                <img src={star} alt="Star" className="w-6 h-6 object-cover" />
+                <span className="bg-gradient-to-l from-[#C7F0FF] to-[#88D2EE] bg-clip-text text-transparent font-black">
+                  {reward.reward}
+                </span>
               </div>
-            )}
+
+              {/* "Received" Overlay with Image */}
+              {receivedRewards.includes(reward.invites) && (
+                <div className="absolute inset-0 bg-[#0F0F10] flex items-center justify-center">
+                  <img src={checkButton} alt="Received" className="w-5 h-5" />
+                  <span className="text-[#EEEEF0] font-bold ml-2">
+                    Received
+                  </span>
+                </div>
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* Invite Button & Link Button */}
+        <div className="flex items-center gap-3 w-100 max-w-md mt-4">
+          <button
+            className="p-3 w-full bg-gradient-to-l from-[#C7F0FF] to-[#88D2EE] text-black text-center rounded-none cursor-pointer font-bold"
+            onClick={handleInvite}
+          >
+            Invite Friends
           </button>
-        ))}
+          <button
+            className="border-2 border-[#88D2EE] p-3 cursor-pointer"
+            onClick={handleCopy}
+            disabled={!referralLink}
+          >
+            <img src={linkButton} alt="Link Button" className="rounded-none" />
+          </button>
+        </div>
       </div>
 
-      {/* Invite Button & Link Button */}
-      <div className="flex items-center gap-4 w-100 max-w-md mt-6">
-        <button
-          className="p-3 w-full bg-gradient-to-l from-[#C7F0FF] to-[#88D2EE] text-black text-center rounded-none cursor-pointer font-bold"
-          onClick={handleInvite}
-        >
-          Invite Friends
-        </button>
-        <button
-          className="border-2 border-[#88D2EE] p-3 cursor-pointer"
-          onClick={handleCopy}
-          disabled={!referralLink}
-        >
-          <img src={linkButton} alt="Link Button" className="rounded-none" />
-        </button>
-      </div>
       <ToastContainer />
     </div>
   );

@@ -220,7 +220,7 @@ function Upgrade() {
   };
 
   return (
-    <div className="container min-h-screen w-full bg-black flex flex-col justify-center items-center relative">
+    <div className="container min-h-screen w-full bg-black flex flex-col justify-center items-center relative overflow-x-hidden">
       <img
         src={homepageImage}
         alt="Background"
@@ -240,7 +240,7 @@ function Upgrade() {
       />
 
       {/* Upgrade List - Scrollable */}
-      <div className="relative z-10 flex flex-col items-center space-y-4 mt-20 overflow-y-auto max-h-[76vh] w-full px-6">
+      <div className="relative z-10 flex flex-col items-center space-y-4 mt-20 overflow-y-auto max-h-[76vh] overflow-hidden w-full px-6">
         {upgrades.map((upgrade, index) => (
           <UpgradeBox key={index} {...upgrade} onUpgrade={handleUpgrade} />
         ))}

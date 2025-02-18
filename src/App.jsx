@@ -53,7 +53,7 @@ const App = () => {
   return (
     <TelegramProvider>
       <Router>
-        <div className="xl:w-[30%] lg:w-[50%] md:w-[70%] w-full max-h-screen min-h-screen overflow-hidden bg-gradient-to-t from-[#0b0c0e] to-[#010507] flex flex-col justify-between my-0 mx-auto px-0 ">
+        <div className="xl:w-[30%] lg:w-[50%] md:w-[70%] w-full max-h-screen min-h-screen overflow-hidden flex flex-col justify-between my-0 mx-auto px-0 ">
           <Routes>
             <Route path="/" element={<Loading />} />
             <Route path="/home" element={<Home />} />

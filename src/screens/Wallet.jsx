@@ -9,6 +9,8 @@ import walletIcon from "../assets/Wallet/Icon.png";
 import { TelegramContext } from "../context/TelegramContext";
 import { getProfile } from "../utils/api";
 import { ToastContainer, toast } from "react-toastify";
+import { toUserFriendlyAddress } from "@tonconnect/sdk";
+import { ImCross } from "react-icons/im"; // Import the cross icon
 
 const Wallet = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,20 +40,20 @@ const Wallet = () => {
     toast.success(`Wallet connected: ${address}`); // Success toast for connection
   }, []);
 
-  // const handleWalletDisconnection = useCallback(() => {
-  //   setTonWalletAddress(null);
-  //   console.log("Wallet disconnected successfully!");
-  //   toast.info("Wallet disconnected!");  // Informative toast for disconnection
-  // }, []);
+  const handleWalletDisconnection = useCallback(() => {
+    setTonWalletAddress(null);
+    console.log("Wallet disconnected successfully!");
+    toast.info("Wallet disconnected!");  // Informative toast for disconnection
+  }, []);
 
   useEffect(() => {
     const checkWalletConnection = async () => {
       if (tonConnectUI.account?.address) {
         handleWalletConnection(tonConnectUI.account?.address);
       }
-      // else {
-      // handleWalletDisconnection();
-      // }
+      else {
+      handleWalletDisconnection();
+      }
     };
 
     checkWalletConnection();
@@ -60,15 +62,15 @@ const Wallet = () => {
       if (wallet) {
         handleWalletConnection(wallet.account.address);
       }
-      // else {
-      //   handleWalletDisconnection();
-      // }
+      else {
+        handleWalletDisconnection();
+      }
     });
 
     return () => {
       unsubscribe();
     };
-  }, [tonConnectUI, handleWalletConnection]);
+  }, [tonConnectUI, handleWalletConnection, handleWalletDisconnection]);
 
   const handleWalletAction = async () => {
     try {
@@ -83,20 +85,8 @@ const Wallet = () => {
     }
   };
 
-  // const formatAddress = (address) => {
-  //   const tempAddress = Address.parse(address).toString();
-  //   return `${tempAddress.slice(0, 4)}...${tempAddress.slice(-4)}`;
-  // };
-
-  // if (isLoading) {
-  //   return (
-  //     <main className="flex min-h-screen flex-col items-center justify-center">
-  //       <div className="bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded">
-  //         Loading...
-  //       </div>
-  //     </main>
-  //   );
-  // }
+  // const formatAddress = toUserFriendlyAddress(tonWalletAddress);
+  // console.log(formatAddress);
 
   return (
     <div className="container min-h-screen w-full bg-black flex flex-col justify-end items-center relative">
@@ -145,21 +135,33 @@ const Wallet = () => {
 
       {/* Button */}
       <div className="absolute top-90 left-1/2 transform -translate-x-1/2 z-10">
-        <div
-          className="w-100 sm:w-48 h-12 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer"
-          onClick={() => setIsOpen(true)}
-        >
-          Connect Wallet
-        </div>
+        {tonWalletAddress ? (
+          <div className="flex justify-center my-2 gap-4 items-center">
+            <ImCross
+              className="text-white bg-[#ff4d4d] text-2xl font-normal rounded-md p-2 transition cursor-pointer hover:bg-[#cc0000]"
+              onClick={handleWalletAction}
+            />
+            <span className="text-white text-sm font-normal rounded-md px-2 py-2 bg-[#10a325]">
+              {toUserFriendlyAddress(tonWalletAddress, true)}
+            </span>
+          </div>
+        ) : (
+          <div
+            className="w-100 sm:w-48 h-12 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer"
+            onClick={() => setIsOpen(true)}
+          >
+            Connect Wallet
+          </div>
+        )}
       </div>
 
-      <div className="fixed top-1/2 justify-center font-bold">
+      <div className="fixed top-112 justify-center font-bold">
         <h1 className="text-sm bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] bg-clip-text text-transparent ">
           Instructions on HOW TO CONNECT A WALLET{" "}
         </h1>
       </div>
 
-      <div className="fixed bottom-80 flex flex-col items-center justify-center w-90 text-xs font-light">
+      <div className="fixed bottom-85 flex flex-col items-center justify-center w-90 text-xs font-light">
         <p className="mt-2 text-[#999999]">
           An airdrop is the distribution of tokens to players' wallets. These
           tokens will be traded on top exchanges, and you can either sell or

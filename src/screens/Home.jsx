@@ -44,7 +44,7 @@ function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState(FOUR_HOURS);
   const [isCharacterJumping, setIsCharacterJumping] = useState(false);
-  const [characterPosition, setCharacterPosition] = useState("bottom-70"); // Initial position
+  const [characterPosition, setCharacterPosition] = useState("bottom-65"); // Initial position
 
   useEffect(() => {
     if (telegramId) {
@@ -69,7 +69,7 @@ function Home() {
         if (prev <= 0) {
           clearInterval(interval); // Stop the timer once it reaches 0
           setIsCharacterJumping(true); // Trigger character change
-          setCharacterPosition("bottom-75"); // Move the character up
+          setCharacterPosition("bottom-73"); // Move the character up
           return 0;
         }
         return prev - 1000; // Decrease time left every second
@@ -122,10 +122,7 @@ function Home() {
         toast.error("Failed to claim tokens instantly. Please try again.");
       }
     } catch (error) {
-      toast.error(
-        "Error: " +
-        error.response.data.message
-      );
+      toast.error("Error: " + error.response.data.message);
       console.error("Error claiming tokens instantly:", error);
     }
   };
@@ -187,32 +184,33 @@ function Home() {
         />
       </div>
 
-      {/* Progress Bar */}
-      <div className="absolute bottom-54 left-1/2 transform -translate-x-1/2 w-100 max-w-md z-10">
-        <div className="flex justify-between text-white text-lg font-bold mb-2">
-          <span>Time Remaining</span>
-          <span>{formattedTime}</span>
-        </div>
-        <div className="relative w-full h-3 bg-gray-700 overflow-hidden rounded-full">
-          <div className="absolute inset-0 flex justify-between">
-            {[...Array(9)].map((_, index) => (
-              <div
-                key={index}
-                className="h-full w-[2px] bg-gray-500 opacity-80"
-              ></div>
-            ))}
+      {/* Parent Container */}
+      <div className="absolute bottom-30 left-1/2 transform -translate-x-1/2 w-full max-w-md z-10 flex flex-col items-center space-y-4 p-2">
+        {/* Progress Bar */}
+        <div className="w-full">
+          <div className="flex justify-between text-white text-lg font-bold mb-2">
+            <span>Time Remaining</span>
+            <span>{formattedTime}</span>
           </div>
-          <div
-            className="h-full bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] transition-all duration-1000"
-            style={{ width: `${percentage}%` }}
-          ></div>
+          <div className="relative w-full h-3 bg-gray-700 overflow-hidden rounded-full">
+            <div className="absolute inset-0 flex justify-between">
+              {[...Array(9)].map((_, index) => (
+                <div
+                  key={index}
+                  className="h-full w-[2px] bg-gray-500 opacity-80"
+                ></div>
+              ))}
+            </div>
+            <div
+              className="h-full bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] transition-all duration-1000"
+              style={{ width: `${percentage}%` }}
+            ></div>
+          </div>
         </div>
-      </div>
 
-      {/* Collect Points Button */}
-      <div className="absolute bottom-37 left-1/2 transform -translate-x-1/2 z-10">
+        {/* Collect Points Button */}
         <div
-          className="w-100 max-w-md sm:w-48 h-12 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer"
+          className="w-full max-w-md h-12 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer"
           onClick={() => {
             if (timeLeft === 0) {
               handleClaimTokens(); // Free claim if 4 hours have passed
