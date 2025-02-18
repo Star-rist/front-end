@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom"; // Import the useNavigate hook
 import homepageImage from "../assets/Splash/Frame 3.png";
 import { useTonConnectUI } from "@tonconnect/ui-react";
-import { Address } from "@ton/core";
+// import { Address } from "@ton/core";
 import star from "../assets/Home/Star.png";
 import profileIcon from "../assets/Home/Profile Icon.png";
 import walletIcon from "../assets/Wallet/Icon.png";
@@ -10,12 +10,12 @@ import { TelegramContext } from "../context/TelegramContext";
 import { getProfile } from "../utils/api";
 import { Buffer } from "buffer";
 
-
 const Wallet = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { username, telegramId } = useContext(TelegramContext);
   const [userPoints, setUserPoints] = useState(0);
   const [userId, setUserId] = useState(null);
+
 
   useEffect(() => {
     if (telegramId) {
@@ -30,27 +30,27 @@ const Wallet = () => {
 
   const [tonConnectUI] = useTonConnectUI();
   const [tonWalletAddress, setTonWalletAddress] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const handleWalletConnection = useCallback((address) => {
     setTonWalletAddress(address);
     localStorage.setItem("tonWalletAddress", address);
     console.log("Wallet connected successfully!", address);
-    setIsLoading(false);
+    // setIsLoading(false);
   }, []);
 
-  // const handleWalletDisconnection = useCallback(() => {
-  //   setTonWalletAddress(null);
-  //   console.log("Wallet disconnected successfully!");
-  //   setIsLoading(false);
-  // }, []);
+  const handleWalletDisconnection = useCallback(() => {
+    setTonWalletAddress(null);
+    console.log("Wallet disconnected successfully!");
+    // setIsLoading(false);
+  }, []);
 
   useEffect(() => {
     const checkWalletConnection = async () => {
       if (tonConnectUI.account?.address) {
         handleWalletConnection(tonConnectUI.account?.address);
       } else {
-        // handleWalletDisconnection();
+        handleWalletDisconnection();
       }
     };
 
@@ -60,34 +60,43 @@ const Wallet = () => {
       if (wallet) {
         handleWalletConnection(wallet.account.address);
       } else {
-        // handleWalletDisconnection();
+        handleWalletDisconnection();
       }
     });
 
     return () => {
       unsubscribe();
     };
-  }, [tonConnectUI, handleWalletConnection,]);
+  }, [tonConnectUI, handleWalletConnection, handleWalletDisconnection]);
 
   const handleWalletAction = async () => {
     try {
+      // setIsLoading(true); // Start loading when the user clicks
       if (tonConnectUI.connected) {
-        setIsLoading(true);
         await tonConnectUI.disconnect();
       } else {
         await tonConnectUI.openModal();
       }
     } catch (error) {
       console.error("Error during wallet connection/disconnection:", error);
-      setError("Wallet connection failed. Please try again.");
+      // setIsLoading(false); // Stop loading if error occurs
     }
   };
 
-  const formatAddress = (address) => {
-    const tempAddress = Address.parse(address).toString();
-    return `${tempAddress.slice(0, 4)}...${tempAddress.slice(-4)}`;
-  };
+  // const formatAddress = (address) => {
+  //   const tempAddress = Address.parse(address).toString();
+  //   return `${tempAddress.slice(0, 4)}...${tempAddress.slice(-4)}`;
+  // };
 
+  // if (isLoading) {
+  //   return (
+  //     <main className="flex min-h-screen flex-col items-center justify-center">
+  //       <div className="bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded">
+  //         Loading...
+  //       </div>
+  //     </main>
+  //   );
+  // }
 
   return (
     <div className="container min-h-screen w-full bg-black flex flex-col justify-end items-center relative">
