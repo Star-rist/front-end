@@ -8,6 +8,8 @@ import profileIcon from "../assets/Home/Profile Icon.png";
 import walletIcon from "../assets/Wallet/Icon.png";
 import { TelegramContext } from "../context/TelegramContext";
 import { getProfile } from "../utils/api";
+import { Buffer } from "buffer";
+
 
 const Wallet = () => {
   const [isOpen, setIsOpen] = useState(false);
