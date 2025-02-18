@@ -13,6 +13,19 @@ export default defineConfig({
       buffer: "buffer/", // Alias for Buffer polyfill
     },
   },
+  build: {
+    sourcemap: true, // Ensure source maps are generated
+    minify: "terser", // Use Terser for better minification control
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            return "vendor"; // Separate vendor dependencies into a separate chunk
+          }
+        },
+      },
+    },
+  },
   optimizeDeps: {
     esbuildOptions: {
       define: {
