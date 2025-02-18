@@ -188,7 +188,7 @@ function Home() {
       </div>
 
       {/* Progress Bar */}
-      <div className="absolute bottom-54 left-1/2 transform -translate-x-1/2 w-95 max-w-md z-10">
+      <div className="absolute bottom-54 left-1/2 transform -translate-x-1/2 w-100 max-w-md z-10">
         <div className="flex justify-between text-white text-lg font-bold mb-2">
           <span>Time Remaining</span>
           <span>{formattedTime}</span>
@@ -212,7 +212,7 @@ function Home() {
       {/* Collect Points Button */}
       <div className="absolute bottom-37 left-1/2 transform -translate-x-1/2 z-10">
         <div
-          className="w-95 max-w-md sm:w-48 h-12 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer"
+          className="w-100 max-w-md sm:w-48 h-12 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer"
           onClick={() => {
             if (timeLeft === 0) {
               handleClaimTokens(); // Free claim if 4 hours have passed

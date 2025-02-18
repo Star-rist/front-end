@@ -8,13 +8,13 @@ import profileIcon from "../assets/Home/Profile Icon.png";
 import walletIcon from "../assets/Wallet/Icon.png";
 import { TelegramContext } from "../context/TelegramContext";
 import { getProfile } from "../utils/api";
+import { ToastContainer, toast } from "react-toastify";
 
 const Wallet = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { username, telegramId } = useContext(TelegramContext);
   const [userPoints, setUserPoints] = useState(0);
   const [userId, setUserId] = useState(null);
-
 
   useEffect(() => {
     if (telegramId) {
@@ -35,22 +35,23 @@ const Wallet = () => {
     setTonWalletAddress(address);
     localStorage.setItem("tonWalletAddress", address);
     console.log("Wallet connected successfully!", address);
-    // setIsLoading(false);
+    toast.success(`Wallet connected: ${address}`); // Success toast for connection
   }, []);
 
-  const handleWalletDisconnection = useCallback(() => {
-    setTonWalletAddress(null);
-    console.log("Wallet disconnected successfully!");
-    // setIsLoading(false);
-  }, []);
+  // const handleWalletDisconnection = useCallback(() => {
+  //   setTonWalletAddress(null);
+  //   console.log("Wallet disconnected successfully!");
+  //   toast.info("Wallet disconnected!");  // Informative toast for disconnection
+  // }, []);
 
   useEffect(() => {
     const checkWalletConnection = async () => {
       if (tonConnectUI.account?.address) {
         handleWalletConnection(tonConnectUI.account?.address);
-      } else {
-        handleWalletDisconnection();
       }
+      // else {
+      // handleWalletDisconnection();
+      // }
     };
 
     checkWalletConnection();
@@ -58,27 +59,27 @@ const Wallet = () => {
     const unsubscribe = tonConnectUI.onStatusChange((wallet) => {
       if (wallet) {
         handleWalletConnection(wallet.account.address);
-      } else {
-        handleWalletDisconnection();
       }
+      // else {
+      //   handleWalletDisconnection();
+      // }
     });
 
     return () => {
       unsubscribe();
     };
-  }, [tonConnectUI, handleWalletConnection, handleWalletDisconnection]);
+  }, [tonConnectUI, handleWalletConnection]);
 
   const handleWalletAction = async () => {
     try {
-      // setIsLoading(true); // Start loading when the user clicks
       if (tonConnectUI.connected) {
         await tonConnectUI.disconnect();
       } else {
         await tonConnectUI.openModal();
       }
     } catch (error) {
-      console.error("Error during wallet connection/disconnection:", error);
-      // setIsLoading(false); // Stop loading if error occurs
+      console.error("Error during wallet connection:", error);
+      toast.error("Error during wallet connection!"); // Toast message
     }
   };
 
@@ -132,7 +133,7 @@ const Wallet = () => {
         </h1>
       </div>
 
-      <div className="absolute top-61 flex flex-col items-center justify-center w-90 text-xs font-light">
+      <div className="absolute top-61 flex flex-col items-center justify-center w-100 text-xs font-light">
         <p className="mt-2 text-[#999999]">
           You and your friends will earn 50 stars each upon successful{" "}
           <span className="block text-center"> registration.</span>
@@ -145,7 +146,7 @@ const Wallet = () => {
       {/* Button */}
       <div className="absolute top-90 left-1/2 transform -translate-x-1/2 z-10">
         <div
-          className="w-95 sm:w-48 h-12 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer"
+          className="w-100 sm:w-48 h-12 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer"
           onClick={() => setIsOpen(true)}
         >
           Connect Wallet
@@ -202,6 +203,7 @@ const Wallet = () => {
           </div>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 };

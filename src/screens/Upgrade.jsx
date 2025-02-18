@@ -37,7 +37,7 @@ const boosterIcons = {
 
 const UpgradeBox = ({ level, earnings, cost, isActive, onUpgrade }) => (
   <div
-    className="flex items-center justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-full max-w-md bg-[#121315] mb-4 cursor-pointer"
+    className="flex items-center justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-100 max-w-md bg-[#121315] mb-4 cursor-pointer"
     onClick={() => onUpgrade(level, cost)}
   >
     <div className="flex gap-4">
