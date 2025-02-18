@@ -36,7 +36,8 @@ const Wallet = () => {
   const handleWalletConnection = useCallback((address) => {
     setTonWalletAddress(address);
     localStorage.setItem("tonWalletAddress", address);
-    console.log("Wallet connected successfully!", address);
+    setIsOpen(false); // Close modal after successful connection
+    console.log("Wallet connected successfully!");
     toast.success(`Wallet connected: ${address}`); // Success toast for connection
   }, []);
 
@@ -84,10 +85,6 @@ const Wallet = () => {
       toast.error("Error during wallet connection!"); // Toast message
     }
   };
-
-  // const formatAddress = toUserFriendlyAddress(tonWalletAddress);
-  // console.log(formatAddress);
-
   return (
     <div className="container min-h-screen w-full bg-black flex flex-col justify-end items-center relative">
       <div className="absolute top-4 left-0 w-full flex justify-between px-4 p-4 items-center">
