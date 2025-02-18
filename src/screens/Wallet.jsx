@@ -1,3 +1,4 @@
+import { Buffer } from "buffer";
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom"; // Import the useNavigate hook
 import homepageImage from "../assets/Splash/Frame 3.png";
@@ -8,7 +9,6 @@ import profileIcon from "../assets/Home/Profile Icon.png";
 import walletIcon from "../assets/Wallet/Icon.png";
 import { TelegramContext } from "../context/TelegramContext";
 import { getProfile } from "../utils/api";
-import { Buffer } from "buffer";
 
 const Wallet = () => {
   const [isOpen, setIsOpen] = useState(false);

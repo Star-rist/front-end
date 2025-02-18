@@ -1,4 +1,7 @@
 import { Buffer } from "buffer";
+if (typeof window !== "undefined") {
+  window.Buffer = Buffer;
+}
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { StrictMode } from "react";
@@ -8,10 +11,6 @@ import App from "./App.jsx";
 import { Provider } from "react-redux";
 import { store } from "./app/store.jsx";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
-// Ensure Buffer is globally available
-if (typeof window !== "undefined") {
-  window.Buffer = Buffer;
-}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
