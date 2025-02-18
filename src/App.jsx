@@ -1,9 +1,3 @@
-import { Buffer } from "buffer";
-import process from "process";
-
-window.Buffer = window.Buffer || Buffer;
-window.process = window.process || process;
-
 import React, { useState, useEffect } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./App.css";
