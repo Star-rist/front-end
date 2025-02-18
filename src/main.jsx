@@ -18,7 +18,7 @@ if (typeof window !== "undefined") {
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <TonConnectUIProvider manifestUrl="https://starist.vercel.app/data.json">
+    <TonConnectUIProvider manifestUrl="https://gateway.pinata.cloud/ipfs/bafkreicttvfgvfhzltk4aqz4vmmzpxfs56znsf3vvwezvbcgehabky6rbm">
       <App />
     </TonConnectUIProvider>
   </Provider>
