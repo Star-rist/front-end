@@ -240,7 +240,7 @@ function Upgrade() {
       />
 
       {/* Upgrade List - Scrollable */}
-      <div className="relative z-10 flex flex-col items-center space-y-4 mt-28 overflow-y-auto max-h-[77vh] w-full px-6">
+      <div className="relative z-10 flex flex-col items-center space-y-4 mt-20 overflow-y-auto max-h-[76vh] w-full px-6">
         {upgrades.map((upgrade, index) => (
           <UpgradeBox key={index} {...upgrade} onUpgrade={handleUpgrade} />
         ))}

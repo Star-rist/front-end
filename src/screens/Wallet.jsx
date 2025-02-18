@@ -155,7 +155,7 @@ const Wallet = () => {
 
       <div className="fixed top-1/2 justify-center font-bold">
         <h1 className="text-sm bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] bg-clip-text text-transparent ">
-          Intructions on HOW TO CONNECT A WALLET{" "}
+          Instructions on HOW TO CONNECT A WALLET{" "}
         </h1>
       </div>
 

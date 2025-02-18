@@ -190,7 +190,7 @@ const Friends = () => {
       />
 
       {/* Referral Rewards */}
-      <div className="w-100 max-w-md mt-6">
+      <div className="overflow-y-auto max-h-90 w-100 max-w-md mt-6">
         {referralRewards.map((reward, index) => (
           <button
             key={index}
@@ -219,7 +219,7 @@ const Friends = () => {
       </div>
 
       {/* Invite Button & Link Button */}
-      <div className="flex items-center gap-4 w-95 max-w-md mt-6">
+      <div className="flex items-center gap-4 w-100 max-w-md mt-6">
         <button
           className="p-3 w-full bg-gradient-to-l from-[#C7F0FF] to-[#88D2EE] text-black text-center rounded-none cursor-pointer font-bold"
           onClick={handleInvite}
