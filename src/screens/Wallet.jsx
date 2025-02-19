@@ -31,29 +31,33 @@ const Wallet = () => {
 
   const [tonConnectUI] = useTonConnectUI();
   const [tonWalletAddress, setTonWalletAddress] = useState(null);
-  // const [isLoading, setIsLoading] = useState(false);
 
   const handleWalletConnection = useCallback((address) => {
+    const storedAddress = localStorage.getItem("tonWalletAddress");
+  
+    if (!storedAddress) {
+      toast.success("Wallet connected successfully!"); 
+    }
+  
     setTonWalletAddress(address);
     localStorage.setItem("tonWalletAddress", address);
-    setIsOpen(false); // Close modal after successful connection
-    console.log("Wallet connected successfully!");
-    toast.success(`Wallet connected successfully!`); // Success toast for connection
   }, []);
-
+  
   const handleWalletDisconnection = useCallback(() => {
+    if (tonWalletAddress) { 
+      toast.info("Wallet disconnected!"); 
+    }
+  
     setTonWalletAddress(null);
-    console.log("Wallet disconnected successfully!");
-    toast.info("Wallet disconnected!");  // Informative toast for disconnection
-  }, []);
+    localStorage.removeItem("tonWalletAddress");
+  }, [tonWalletAddress]);
 
   useEffect(() => {
     const checkWalletConnection = async () => {
       if (tonConnectUI.account?.address) {
         handleWalletConnection(tonConnectUI.account?.address);
-      }
-      else {
-      handleWalletDisconnection();
+      } else {
+        handleWalletDisconnection();
       }
     };
 
@@ -62,8 +66,7 @@ const Wallet = () => {
     const unsubscribe = tonConnectUI.onStatusChange((wallet) => {
       if (wallet) {
         handleWalletConnection(wallet.account.address);
-      }
-      else {
+      } else {
         handleWalletDisconnection();
       }
     });
@@ -82,9 +85,16 @@ const Wallet = () => {
       }
     } catch (error) {
       console.error("Error during wallet connection:", error);
-      toast.error("Error during wallet connection!"); // Toast message
+      toast.error("Error during wallet connection!"); 
     }
   };
+
+  const formatAddress = (address) => {
+    if (!address) return "";
+    const formattedAddress = toUserFriendlyAddress(address, true); // Format address
+    return `${formattedAddress.slice(0, 5)}...${formattedAddress.slice(-5)}`; // Trimmed format
+  };
+
   return (
     <div className="container min-h-screen w-full bg-black flex flex-col justify-end items-center relative">
       <div className="absolute top-4 left-0 w-full flex justify-between px-4 p-4 items-center">
@@ -93,7 +103,7 @@ const Wallet = () => {
           <img
             src={profileIcon}
             alt="profile Icon"
-            className="w-12 h-12 object-cover"
+            className="w-12 h-12 object-cover mr-2"
           />
           <p className="text-white text-lg font-bold">{username}</p>
         </div>
@@ -138,8 +148,8 @@ const Wallet = () => {
               className="text-white bg-[#ff4d4d] text-2xl font-normal rounded-md p-2 transition cursor-pointer hover:bg-[#cc0000]"
               onClick={handleWalletAction}
             />
-            <span className="text-white text-sm font-normal rounded-md px-2 py-2 bg-[#10a325]">
-              {toUserFriendlyAddress(tonWalletAddress, true)}
+            <span className="text-white text-sm font-normal rounded-md px-2 py-2 bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF]">
+              {formatAddress(tonWalletAddress)}
             </span>
           </div>
         ) : (

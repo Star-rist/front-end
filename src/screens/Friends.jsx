@@ -13,6 +13,7 @@ import {
   referralReward,
 } from "../utils/api";
 import { ToastContainer, toast } from "react-toastify";
+import { FaTelegram, FaTwitter, FaWhatsapp } from "react-icons/fa"; // Import social icons
 
 const referralRewards = [
   { invites: 3, reward: "100" },
@@ -29,6 +30,7 @@ const Friends = () => {
   const [referralLink, setReferralLink] = useState("");
   const [referralsCount, setReferralsCount] = useState(0);
   const [linkGenerated, setLinkGenerated] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
 
   useEffect(() => {
     if (telegramId) {
@@ -62,8 +64,9 @@ const Friends = () => {
       const data = await getRefLink(telegramId);
       if (data?.data?.referralLink) {
         setReferralLink(data.data.referralLink);
+        setIsModalOpen(true);
         setLinkGenerated(true);
-        toast.success("Invite link generated successfully!");
+        // toast.success("Invite link generated successfully!");
       } else {
         toast.error("Failed to generate invite link.");
       }
@@ -133,6 +136,30 @@ const Friends = () => {
     }
   };
 
+  // Share to social platforms
+  const handleShare = (platform) => {
+    if (!referralLink) return;
+
+    let url = "";
+    const encodedLink = encodeURIComponent(referralLink);
+
+    switch (platform) {
+      case "telegram":
+        url = `https://t.me/share/url?url=${encodedLink}`;
+        break;
+      case "twitter":
+        url = `https://twitter.com/intent/tweet?text=Join me and earn rewards! ${encodedLink}`;
+        break;
+      case "whatsapp":
+        url = `https://wa.me/?text=Join%20me%20and%20earn%20rewards!%20${encodedLink}`;
+        break;
+      default:
+        return;
+    }
+
+    window.open(url, "_blank");
+  };
+
   return (
     <div
       className="container min-h-screen w-full bg-black flex flex-col items-center p-4 relative"
@@ -189,7 +216,6 @@ const Friends = () => {
         className="absolute w-full h-full object-cover opacity-100 -z-10 pointer-events-none"
       />
 
-
       <div className="overflow-y-auto overflow-x-hidden max-h-150 w-90 max-w-md mt-3">
         <div className="">
           {referralRewards.map((reward, index) => (
@@ -237,6 +263,61 @@ const Friends = () => {
             <img src={linkButton} alt="Link Button" className="rounded-none" />
           </button>
         </div>
+
+        {/* Modal */}
+        {isModalOpen && (
+          <div className="fixed inset-0 bg-[#0D131B7A] backdrop-blur-lg flex items-center justify-center z-50">
+            <div className="bg-gradient-to-r from-[#09090A] to-[#121315] p-6 border-1 border-[#C7F0FF] text-center w-95">
+              <h2 className="text-lg font-bold text-white">
+                Share Your Invite Link
+              </h2>
+              <p className="text-sm text-gray-400 mt-2">
+                Invite friends and earn rewards!
+              </p>
+
+              {/* Referral Link Box */}
+              <div className="flex justify-between items-center bg-gray-800 p-3 rounded-md mt-4">
+                <span className="text-gray-300 truncate">{referralLink}</span>
+                <button
+                  className="bg-blue-500 text-white px-2 py-1 rounded-md text-sm"
+                  onClick={handleCopy}
+                >
+                  Copy
+                </button>
+              </div>
+
+              {/* Social Media Sharing */}
+              <div className="flex justify-around mt-4">
+                <button
+                  className="flex items-center gap-2 text-white text-sm px-3 py-2 bg-[#0088cc] rounded-md"
+                  onClick={() => handleShare("telegram")}
+                >
+                  <FaTelegram className="text-lg" /> Telegram
+                </button>
+                <button
+                  className="flex items-center gap-2 text-white text-sm px-3 py-2 bg-[#1DA1F2] rounded-md"
+                  onClick={() => handleShare("twitter")}
+                >
+                  <FaTwitter className="text-lg" /> Twitter
+                </button>
+                <button
+                  className="flex items-center gap-2 text-white text-sm px-3 py-2 bg-[#25D366] rounded-md"
+                  onClick={() => handleShare("whatsapp")}
+                >
+                  <FaWhatsapp className="text-lg" /> WhatsApp
+                </button>
+              </div>
+
+              {/* Close Button */}
+              <button
+                className="w-full bg-red-500 text-white py-2 rounded-md mt-4"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
       <ToastContainer />
     </div>

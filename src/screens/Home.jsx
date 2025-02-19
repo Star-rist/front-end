@@ -151,13 +151,13 @@ function Home() {
         <img
           src={profileIcon}
           alt="profile Icon"
-          className="w-10 h-10 object-cover mr-2"
+          className="w-12 h-12 object-cover mr-2"
         />
         <p className="text-white text-lg font-bold">{username}</p>
       </div>
 
       {/* Main Display */}
-      <div className="fixed top-63 left-0 w-full h-full flex flex-col items-center justify-start z-10">
+      <div className="fixed top-60 left-0 w-full h-full flex flex-col items-center justify-start z-10">
         <div className="relative w-65 top-[-100px]">
           <img src={screen} alt="screen" className="w-full object-cover" />
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-4xl font-bold">
