@@ -44,7 +44,7 @@ function Home() {
   const [isOpen, setIsOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState(FOUR_HOURS);
   const [isCharacterJumping, setIsCharacterJumping] = useState(false);
-  const [characterPosition, setCharacterPosition] = useState("bottom-65"); // Initial position
+  const [characterPosition, setCharacterPosition] = useState("bottom-56"); // Initial position
 
   useEffect(() => {
     if (telegramId) {
@@ -69,7 +69,7 @@ function Home() {
         if (prev <= 0) {
           clearInterval(interval); // Stop the timer once it reaches 0
           setIsCharacterJumping(true); // Trigger character change
-          setCharacterPosition("bottom-73"); // Move the character up
+          setCharacterPosition("bottom-64"); // Move the character up
           return 0;
         }
         return prev - 1000; // Decrease time left every second
@@ -143,11 +143,11 @@ function Home() {
       <img
         src={animatedGif}
         alt="Animation"
-        className="absolute top-0 left-0 w-full h-full object-cover opacity-100"
+        className="fixed w-full h-full object-cover opacity-100"
       />
 
       {/* Top Left User Info */}
-      <div className="absolute top-11 left-4 p-4 gap-1 flex items-center">
+      <div className="absolute top-2 p-4 gap-1 w-full flex items-center">
         <img
           src={profileIcon}
           alt="profile Icon"
@@ -157,7 +157,7 @@ function Home() {
       </div>
 
       {/* Main Display */}
-      <div className="absolute top-60 left-0 w-full h-full flex flex-col items-center justify-start z-10">
+      <div className="fixed top-55 left-0 w-full h-full flex flex-col items-center justify-start z-10">
         <div className="relative w-65 top-[-100px]">
           <img src={screen} alt="screen" className="w-full object-cover" />
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-4xl font-bold">
@@ -175,17 +175,17 @@ function Home() {
 
       {/* Character Image */}
       <div
-        className={`absolute ${characterPosition} left-1/2 transform -translate-x-1/2`}
+        className={`fixed ${characterPosition} left-1/2 transform -translate-x-1/2`}
       >
         <img
           src={isCharacterJumping ? characterJumping : character} // Change image
           alt="character"
-          className="w-65 h-70 object-cover"
+          className="w-70 h-60 object-cover"
         />
       </div>
 
       {/* Parent Container */}
-      <div className="absolute bottom-30 left-1/2 transform -translate-x-1/2 w-full max-w-md z-10 flex flex-col items-center space-y-4 p-2">
+      <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 w-full max-w-md z-10 flex flex-col items-center space-y-4 p-4">
         {/* Progress Bar */}
         <div className="w-full">
           <div className="flex justify-between text-white text-lg font-bold mb-2">
@@ -210,7 +210,7 @@ function Home() {
 
         {/* Collect Points Button */}
         <div
-          className="w-full max-w-md h-12 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer"
+          className="w-full p-4 max-w-md h-12 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer"
           onClick={() => {
             if (timeLeft === 0) {
               handleClaimTokens(); // Free claim if 4 hours have passed

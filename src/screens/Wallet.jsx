@@ -120,7 +120,7 @@ const Wallet = () => {
         </h1>
       </div>
 
-      <div className="absolute top-61 flex flex-col items-center justify-center w-100 text-xs font-light">
+      <div className="absolute top-61 flex flex-col items-center justify-center w-90 text-xs font-light">
         <p className="mt-2 text-[#999999]">
           You and your friends will earn 50 stars each upon successful{" "}
           <span className="block text-center"> registration.</span>
@@ -131,7 +131,7 @@ const Wallet = () => {
       </div>
 
       {/* Button */}
-      <div className="absolute top-90 left-1/2 transform -translate-x-1/2 z-10">
+      <div className="fixed top-90 left-1/2 transform -translate-x-1/2 z-10">
         {tonWalletAddress ? (
           <div className="flex justify-center my-2 gap-4 items-center">
             <ImCross
@@ -144,7 +144,7 @@ const Wallet = () => {
           </div>
         ) : (
           <div
-            className="w-100 sm:w-48 h-12 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer"
+            className="w-90 sm:w-48 h-12 flex items-center justify-center bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] text-black text-lg font-semibold shadow-md cursor-pointer"
             onClick={() => setIsOpen(true)}
           >
             Connect Wallet
@@ -152,13 +152,13 @@ const Wallet = () => {
         )}
       </div>
 
-      <div className="fixed top-112 justify-center font-bold">
+      <div className="fixed top-108 justify-center font-bold">
         <h1 className="text-sm bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF] bg-clip-text text-transparent ">
           Instructions on HOW TO CONNECT A WALLET{" "}
         </h1>
       </div>
 
-      <div className="fixed bottom-85 flex flex-col items-center justify-center w-90 text-xs font-light">
+      <div className="fixed top-118 flex flex-col items-center justify-center w-90 text-xs font-light">
         <p className="mt-2 text-[#999999]">
           An airdrop is the distribution of tokens to players' wallets. These
           tokens will be traded on top exchanges, and you can either sell or

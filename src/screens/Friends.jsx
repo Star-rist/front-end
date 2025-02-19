@@ -135,7 +135,7 @@ const Friends = () => {
 
   return (
     <div
-      className="container min-h-screen w-full bg-black flex flex-col items-center p-6 relative"
+      className="container min-h-screen w-full bg-black flex flex-col items-center p-4 relative"
       style={{
         backgroundImage: `url(${homepageImage})`,
         backgroundSize: "cover",
@@ -161,9 +161,9 @@ const Friends = () => {
       </div>
 
       {/* Friends Count and Referral Info */}
-      <div className="text-center w-100 rounded-xs mt-6">
+      <div className="text-center w-100 rounded-xs mt-5">
         <p className="text-sm text-[#999999] mb-2 font-normal">Friends</p>
-        <p className="text-5xl text-[#EEEEF0] font-black mb-5">
+        <p className="text-5xl text-[#EEEEF0] font-black mb-3">
           {referralsCount}
         </p>
         <p className="text-sm flex justify-center space-x-1">
@@ -186,11 +186,11 @@ const Friends = () => {
       <img
         src={animatedGif}
         alt="Animated Effect"
-        className="absolute top-0 left-0 w-full h-full object-cover opacity-100 -z-10 pointer-events-none"
+        className="absolute w-full h-full object-cover opacity-100 -z-10 pointer-events-none"
       />
 
 
-      <div className="overflow-y-auto max-h-100 w-100 max-w-md mt-4">
+      <div className="overflow-y-auto overflow-x-hidden max-h-150 w-90 max-w-md mt-3">
         <div className="">
           {referralRewards.map((reward, index) => (
             <button
@@ -222,7 +222,7 @@ const Friends = () => {
         </div>
 
         {/* Invite Button & Link Button */}
-        <div className="flex items-center gap-3 w-100 max-w-md mt-4">
+        <div className="flex items-center gap-3 w-90 max-w-md mb-15">
           <button
             className="p-3 w-full bg-gradient-to-l from-[#C7F0FF] to-[#88D2EE] text-black text-center rounded-none cursor-pointer font-bold"
             onClick={handleInvite}
@@ -238,7 +238,6 @@ const Friends = () => {
           </button>
         </div>
       </div>
-
       <ToastContainer />
     </div>
   );

@@ -37,7 +37,7 @@ const boosterIcons = {
 
 const UpgradeBox = ({ level, earnings, cost, isActive, onUpgrade }) => (
   <div
-    className="flex items-center justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-100 max-w-md bg-[#121315] mb-4 cursor-pointer"
+    className="flex items-center justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-90 max-w-md bg-[#121315] mb-4 cursor-pointer"
     onClick={() => onUpgrade(level, cost)}
   >
     <div className="flex gap-4">
@@ -87,8 +87,8 @@ const UpgradeBox = ({ level, earnings, cost, isActive, onUpgrade }) => (
 
 const CurrentBooster = ({ username, points, boosterLevel }) => {
   return (
-    <div className="absolute top-4 left-0 w-full flex justify-between px-4 p-4 items-center text-white">
-      <div className="absolute top-4 left-0 w-full flex justify-between px-4 p-4 items-center">
+    <div className="absolute top-2 w-full flex justify-between p-4 items-center text-white">
+      <div className="absolute top-2 left-0 w-full flex justify-between px-4 items-center">
         {/* Image and Text at Top Left */}
         <div className="flex items-center gap-3">
           <img
@@ -110,7 +110,7 @@ const CurrentBooster = ({ username, points, boosterLevel }) => {
         </div>
       </div>
 
-      <div className="absolute top-18 left-0 w-full flex justify-between px-4 p-4 items-center">
+      <div className="absolute top-15 left-0 w-full flex justify-between px-4 p-4 items-center">
         {/* Image and Text at Top Left */}
         <div className="flex items-center gap-3">
           <p className="text-sm text-gray-400">Current Booster</p>
@@ -240,7 +240,7 @@ function Upgrade() {
       />
 
       {/* Upgrade List - Scrollable */}
-      <div className="relative z-10 flex flex-col items-center space-y-4 mt-20 overflow-y-auto max-h-[76vh] overflow-hidden w-full px-6">
+      <div className="relative z-10 flex flex-col items-center space-y-4 mt-30 overflow-y-auto max-h-180 overflow-hidden w-full mb-25">
         {upgrades.map((upgrade, index) => (
           <UpgradeBox key={index} {...upgrade} onUpgrade={handleUpgrade} />
         ))}

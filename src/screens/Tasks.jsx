@@ -23,7 +23,7 @@ const bgColorMap = {
 };
 
 const TaskBox = ({ iconLeft, points, text, secondText, imgAlt, link }) => (
-  <div className="flex items-center justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-100 max-w-md mx-auto bg-[#121315] mb-2">
+  <div className="flex items-center justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-90 max-w-md bg-[#121315] mb-3">
     {/* Left Icon */}
     <div className="flex gap-4">
       <div
@@ -86,7 +86,7 @@ function Tasks() {
       <img
         src={homepageImage}
         alt="Background"
-        className="absolute top-0 left-0 w-full h-full object-cover"
+        className="absolute w-full h-full object-cover"
       />
 
       {/* Animated GIF Overlay */}
@@ -97,7 +97,7 @@ function Tasks() {
       />
 
       {/* Top Bar Container */}
-      <div className="absolute top-4 left-0 w-full flex justify-between px-4 p-4 items-center">
+      <div className="absolute top-2 w-full flex justify-between p-4 items-center">
         {/* Image and Text at Top Left */}
         <div className="flex items-center gap-3">
           <img
@@ -120,9 +120,9 @@ function Tasks() {
       </div>
 
       {/* Tabs Bar */}
-      <div className="absolute top-37 z-10 w-full flex flex-col items-center">
+      <div className="absolute top-25 z-10 w-full flex flex-col items-center">
         {/* Tabs */}
-        <div className="flex justify-center space-x-18 text-[#999999] font-light text-lg mb-2">
+        <div className="flex justify-center space-x-19 text-[#999999] font-light text-lg mb-2">
           {["Daily", "Special", "Game"].map((tab) => (
             <button
               key={tab}
@@ -154,7 +154,7 @@ function Tasks() {
       </div>
 
       {/* Task Boxes Container */}
-      <div className="relative z-10 flex flex-col items-center space-y-4">
+      <div className="relative w-90 max-w-md z-10 flex flex-col items-center mt-6 space-y-4">
         <TaskBox
           iconLeft="medium"
           text="Follow our blog on Medium"

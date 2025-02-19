@@ -31,3 +31,7 @@ body {
     max-width: 100%;
   }
 }
+
+@media (max-width: 640px) {
+  /* Styles for screens smaller than 640px */
+}
