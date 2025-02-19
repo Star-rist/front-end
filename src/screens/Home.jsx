@@ -157,7 +157,7 @@ function Home() {
       </div>
 
       {/* Main Display */}
-      <div className="fixed top-55 left-0 w-full h-full flex flex-col items-center justify-start z-10">
+      <div className="fixed top-63 left-0 w-full h-full flex flex-col items-center justify-start z-10">
         <div className="relative w-65 top-[-100px]">
           <img src={screen} alt="screen" className="w-full object-cover" />
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-4xl font-bold">

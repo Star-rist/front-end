@@ -38,7 +38,7 @@ const Wallet = () => {
     localStorage.setItem("tonWalletAddress", address);
     setIsOpen(false); // Close modal after successful connection
     console.log("Wallet connected successfully!");
-    toast.success(`Wallet connected: ${address}`); // Success toast for connection
+    toast.success(`Wallet connected successfully!`); // Success toast for connection
   }, []);
 
   const handleWalletDisconnection = useCallback(() => {
