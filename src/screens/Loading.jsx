@@ -30,7 +30,7 @@ const Loading = () => {
     if (step === 2) {
       const timer = setTimeout(() => {
         setStep(3); // Automatically move to final page after 1 seconds
-      }, 1000);
+      }, 500);
       return () => clearTimeout(timer);
     }
   }, [step]);

@@ -85,8 +85,4 @@ export const referralReward = async (userId) => {
     throw error;
   }
 };
-// 1247974918   bit_cipher
-// 7444825599   emmy0932
-
 // http://localhost:5173/home?telegramId=7444825599&username=emmy0932
-// https://starist.vercel.app?telegramId=7444825599&username=emmy0932

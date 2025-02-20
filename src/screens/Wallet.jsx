@@ -40,6 +40,7 @@ const Wallet = () => {
     }
   
     setTonWalletAddress(address);
+    setIsOpen(false)
     localStorage.setItem("tonWalletAddress", address);
   }, []);
   
@@ -92,7 +93,7 @@ const Wallet = () => {
   const formatAddress = (address) => {
     if (!address) return "";
     const formattedAddress = toUserFriendlyAddress(address, true); // Format address
-    return `${formattedAddress.slice(0, 5)}...${formattedAddress.slice(-5)}`; // Trimmed format
+    return `${formattedAddress.slice(0, 8)}...${formattedAddress.slice(-8)}`; // Trimmed format
   };
 
   return (
@@ -148,7 +149,7 @@ const Wallet = () => {
               className="text-white bg-[#ff4d4d] text-2xl font-normal rounded-md p-2 transition cursor-pointer hover:bg-[#cc0000]"
               onClick={handleWalletAction}
             />
-            <span className="text-white text-sm font-normal rounded-md px-2 py-2 bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF]">
+            <span className="text-black text-sm font-normal rounded-md px-2 py-2 bg-gradient-to-r from-[#88D2EE] to-[#C7F0FF]">
               {formatAddress(tonWalletAddress)}
             </span>
           </div>
