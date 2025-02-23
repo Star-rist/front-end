@@ -16,7 +16,6 @@ import Tasks from "./screens/Tasks.jsx";
 import BottomNavigation from "./components/BottomNavigation.jsx";
 import { TelegramProvider } from "./context/TelegramContext.jsx";
 
-// Message Component for Non-Mobile Devices
 const NonMobileMessage = () => (
   <div className="flex flex-col items-center justify-center h-screen bg-[#0b0c0e] text-white text-center">
     <h1 className="text-2xl font-bold mb-4">Access Restricted</h1>
@@ -25,29 +24,20 @@ const NonMobileMessage = () => (
 );
 
 const App = () => {
-  // const [count, setCount] = useState(0);
-  // const [isMobile, setIsMobile] = useState(true);
+  const [count, setCount] = useState(0);
+  const [isMobile, setIsMobile] = useState(true);
 
-  // useEffect(() => {
+  useEffect(() => {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const mobileDevices = /android|iphone|ipad|ipod|opera mini|iemobile|blackberry|kindle|mobile/i;
+    setIsMobile(mobileDevices.test(userAgent));
+  }, []);
 
-  //   if (window.Telegram && window.Telegram.WebApp) {
-
-  //     window.Telegram.WebApp.disableVerticalSwipes();
-  //   } else {
-  //     console.warn('Telegram WebApp API is not available');
-  //   }
-
-  //   // Detect device type
-  //   const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-  //   const mobileDevices = /android|iphone|ipad|ipod|opera mini|iemobile|blackberry|kindle|mobile/i;
-  //   setIsMobile(mobileDevices.test(userAgent));
-  // }, []);
-
-  // if (!isMobile) return <NonMobileMessage />;
+  if (!isMobile) return <NonMobileMessage />;
 
   const ExcludeBottomNavigation = () => {
     const location = useLocation();
-    const excludeRoutes = ["/"]; // Add all routes where you don't want BottomNavigation
+    const excludeRoutes = ["/"];
     return !excludeRoutes.includes(location.pathname) && <BottomNavigation />;
   };
   return (

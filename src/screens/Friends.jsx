@@ -216,12 +216,12 @@ const Friends = () => {
         className="absolute w-full h-full object-cover opacity-100 -z-10 pointer-events-none"
       />
 
-      <div className="overflow-y-auto overflow-x-hidden max-h-150 w-90 max-w-md mt-3">
+      <div className="overflow-y-auto overflow-x-hidden w-90 max-w-md mt-2">
         <div className="">
           {referralRewards.map((reward, index) => (
             <button
               key={index}
-              className="relative flex items-center text-white justify-between p-4 border-2 border-[#88D2EE] rounded-xs w-full bg-[#121315] mb-4 cursor-pointer overflow-hidden"
+              className="relative flex items-center text-white justify-between p-3 border-2 border-[#88D2EE] rounded-xs w-full bg-[#121315] mb-3 cursor-pointer overflow-hidden"
               onClick={() => handleReceiveReward(reward.invites)}
               aria-label={`Claim ${reward.reward} stars for ${reward.invites} invites`}
             >
