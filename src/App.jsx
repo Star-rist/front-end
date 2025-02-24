@@ -30,11 +30,17 @@ const App = () => {
   useEffect(() => {
     if (typeof window !== "undefined" && window.Telegram?.WebApp) {
       window.Telegram.WebApp.ready();
-      window.Telegram.WebApp.expand();
+  
+      setTimeout(() => {
+        window.Telegram.WebApp.expand();
+      }, 100);
     }
-
+  
+    // Detect iOS WebView and adjust
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    if (isIOS) {
+    const isInStandaloneMode = window.matchMedia("(display-mode: standalone)").matches;
+  
+    if (isIOS && !isInStandaloneMode) {
       document.documentElement.style.height = "100%";
       document.body.style.height = "100%";
       document.body.style.overflow = "hidden";

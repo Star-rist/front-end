@@ -162,7 +162,7 @@ const Friends = () => {
 
   return (
     <div
-      className="container min-h-screen w-full bg-black flex flex-col items-center p-4 relative"
+      className="container min-h-screen w-full bg-black flex flex-col items-center p-3 relative"
       style={{
         backgroundImage: `url(${homepageImage})`,
         backgroundSize: "cover",
@@ -188,9 +188,9 @@ const Friends = () => {
       </div>
 
       {/* Friends Count and Referral Info */}
-      <div className="text-center w-100 rounded-xs mt-5">
+      <div className="text-center w-100 rounded-xs mt-3">
         <p className="text-sm text-[#999999] mb-2 font-normal">Friends</p>
-        <p className="text-5xl text-[#EEEEF0] font-black mb-3">
+        <p className="text-5xl text-[#EEEEF0] font-black mb-2">
           {referralsCount}
         </p>
         <p className="text-sm flex justify-center space-x-1">
@@ -216,12 +216,12 @@ const Friends = () => {
         className="absolute w-full h-full object-cover opacity-100 -z-10 pointer-events-none"
       />
 
-      <div className="overflow-y-auto overflow-x-hidden w-90 max-w-md mt-2">
+      <div className="overflow-y-auto overflow-x-hidden w-90 max-w-md mt-3">
         <div className="">
           {referralRewards.map((reward, index) => (
             <button
               key={index}
-              className="relative flex items-center text-white justify-between p-3 border-2 border-[#88D2EE] rounded-xs w-full bg-[#121315] mb-3 cursor-pointer overflow-hidden"
+              className="relative flex items-center text-white justify-between p-2 border-2 border-[#88D2EE] rounded-xs w-full bg-[#121315] mb-3 cursor-pointer overflow-hidden"
               onClick={() => handleReceiveReward(reward.invites)}
               aria-label={`Claim ${reward.reward} stars for ${reward.invites} invites`}
             >
