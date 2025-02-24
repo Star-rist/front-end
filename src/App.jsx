@@ -35,8 +35,7 @@ const App = () => {
         window.Telegram.WebApp.expand();
       }, 100);
     }
-  
-    // Detect iOS WebView and adjust
+    document.documentElement.requestFullscreen?.();
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
     const isInStandaloneMode = window.matchMedia("(display-mode: standalone)").matches;
   
