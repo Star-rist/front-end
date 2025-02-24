@@ -28,10 +28,16 @@ const App = () => {
   const [isMobile, setIsMobile] = useState(true);
 
   useEffect(() => {
-
     if (typeof window !== "undefined" && window.Telegram?.WebApp) {
       window.Telegram.WebApp.ready();
       window.Telegram.WebApp.expand();
+    }
+
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    if (isIOS) {
+      document.documentElement.style.height = "100%";
+      document.body.style.height = "100%";
+      document.body.style.overflow = "hidden";
     }
 
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
