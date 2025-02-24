@@ -28,8 +28,16 @@ const App = () => {
   const [isMobile, setIsMobile] = useState(true);
 
   useEffect(() => {
+
+    if (window.Telegram && window.Telegram.WebApp) {
+      const webApp = window.Telegram.WebApp;
+      webApp.expand(); 
+      webApp.ready(); 
+    }
+
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    const mobileDevices = /android|iphone|ipad|ipod|opera mini|iemobile|blackberry|kindle|mobile/i;
+    const mobileDevices =
+      /android|iphone|ipad|ipod|opera mini|iemobile|blackberry|kindle|mobile/i;
     setIsMobile(mobileDevices.test(userAgent));
   }, []);
 
