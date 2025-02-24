@@ -29,10 +29,9 @@ const App = () => {
 
   useEffect(() => {
 
-    if (window.Telegram && window.Telegram.WebApp) {
-      const webApp = window.Telegram.WebApp;
-      webApp.expand(); 
-      webApp.ready(); 
+    if (typeof window !== "undefined" && window.Telegram?.WebApp) {
+      window.Telegram.WebApp.ready();
+      window.Telegram.WebApp.expand();
     }
 
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
