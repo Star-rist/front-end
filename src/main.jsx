@@ -9,6 +9,8 @@ import App from "./App.jsx";
 import { Provider } from "react-redux";
 import { store } from "./app/store.jsx";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
+import { Buffer } from 'buffer'; 
+window.Buffer = Buffer;
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
