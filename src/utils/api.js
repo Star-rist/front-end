@@ -1,11 +1,5 @@
 import axios from "axios";
 
-import { TonConnect } from "@tonconnect/sdk";
-
-export const tonConnect = new TonConnect({
-  manifestUrl: "https://yourdomain.com/tonconnect-manifest.json", // Change this to your actual hosted manifest
-});
-
 const API_BASE_URL = "https://starist.onrender.com/api/v1";
 
 const api = axios.create({
@@ -86,3 +80,5 @@ export const referralReward = async (userId) => {
   }
 };
 // http://localhost:5173/home?telegramId=1247974918&username=bit_cipher
+
+// https://front-end-ten-nu.vercel.app/home?telegramId=1247974918&username=bit_cipher
