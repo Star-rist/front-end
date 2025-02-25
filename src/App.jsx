@@ -30,19 +30,16 @@ const App = () => {
   useEffect(() => {
     if (typeof window !== "undefined" && window.Telegram?.WebApp) {
       window.Telegram.WebApp.ready();
-  
+
       setTimeout(() => {
         window.Telegram.WebApp.expand();
+
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        if (isIOS) {
+          document.documentElement.style.height = `${window.innerHeight}px`;
+          document.body.style.height = `${window.innerHeight}px`;
+        }
       }, 100);
-    }
-    document.documentElement.requestFullscreen?.();
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isInStandaloneMode = window.matchMedia("(display-mode: standalone)").matches;
-  
-    if (isIOS && !isInStandaloneMode) {
-      document.documentElement.style.height = "100%";
-      document.body.style.height = "100%";
-      document.body.style.overflow = "hidden";
     }
 
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
