@@ -98,7 +98,7 @@ const Wallet = () => {
 
   return (
     <div className="container min-h-screen w-full bg-black flex flex-col justify-end items-center relative">
-      <div className="absolute top-4 left-0 w-full flex justify-between px-4 p-4 items-center">
+      <div className="absolute top-4 left-0 w-full flex justify-between px-4 p-2 items-center">
         {/* Image and Text at Top Left */}
         <div className="flex items-center gap-1">
           <img

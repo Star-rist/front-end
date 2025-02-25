@@ -183,6 +183,7 @@ function Home() {
           className="w-70 h-60 object-cover"
         />
       </div>
+      
 
       {/* Parent Container */}
       <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 w-full max-w-md z-10 flex flex-col items-center space-y-4 p-4">

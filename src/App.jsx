@@ -48,6 +48,8 @@ const App = () => {
     setIsMobile(mobileDevices.test(userAgent));
   }, []);
 
+  console.log("Telegram WebApp:", window.Telegram?.WebApp);
+
   if (!isMobile) return <NonMobileMessage />;
 
   const ExcludeBottomNavigation = () => {
@@ -58,7 +60,7 @@ const App = () => {
   return (
     <TelegramProvider>
       <Router>
-        <div className="xl:w-[30%] lg:w-[50%] md:w-[70%] w-full max-h-screen min-h-screen overflow-hidden flex flex-col justify-between my-0 mx-auto px-0 ">
+        <div className="xl:w-[30%] lg:w-[50%] md:w-[70%] w-full h-[var(--app-height)] overflow-hidden flex flex-col justify-between my-0 mx-auto px-0 ">
           <Routes>
             <Route path="/" element={<Loading />} />
             <Route path="/home" element={<Home />} />
