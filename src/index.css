@@ -32,9 +32,8 @@ body {
   justify-content: center;
 }
 
-#root,
-.app-container {
-  height: 100vh; /* Ensure app takes full screen */
+:root {
+  --app-height: 100vh;
 }
 
 @media (max-width: 768px) {

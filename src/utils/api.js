@@ -1,11 +1,5 @@
 import axios from "axios";
 
-import { TonConnect } from "@tonconnect/sdk";
-
-export const tonConnect = new TonConnect({
-  manifestUrl: "https://yourdomain.com/tonconnect-manifest.json", // Change this to your actual hosted manifest
-});
-
 const API_BASE_URL = "https://starist.onrender.com/api/v1";
 
 const api = axios.create({

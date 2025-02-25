@@ -9,22 +9,19 @@ export const TelegramProvider = ({ children }) => {
   useEffect(() => {
     if (typeof window !== "undefined" && window.Telegram?.WebApp) {
       window.Telegram.WebApp.ready();
-
       setTimeout(() => {
         window.Telegram.WebApp.expand();
-
-        // Force full height on iOS
+  
+        // Fix iOS height issue
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
         if (isIOS) {
-          document.documentElement.style.setProperty("--app-height", `${window.innerHeight}px`);
-          document.body.style.height = "var(--app-height)";
+          const updateHeight = () => {
+            document.documentElement.style.setProperty("--app-height", `${window.innerHeight}px`);
+          };
+  
+          updateHeight(); // Set height on load
+          window.addEventListener("resize", updateHeight); // Update on resize
         }
-
-        // Listen for resize and update dynamically
-        window.addEventListener("resize", () => {
-          document.documentElement.style.setProperty("--app-height", `${window.innerHeight}px`);
-          document.body.style.height = "var(--app-height)";
-        });
       }, 100);
     }
   }, []);

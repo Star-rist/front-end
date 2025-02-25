@@ -33,7 +33,7 @@ const Loading = () => {
   };
 
   return (
-    <div className="container min-h-screen w-full bg-black flex flex-col justify-end items-center relative">
+    <div className="container h-[var(--app-height)] w-full bg-black flex flex-col justify-end items-center relative">
       {/* Background Image */}
       <img
         src={homepageImage}
