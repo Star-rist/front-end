@@ -85,4 +85,4 @@ export const referralReward = async (userId) => {
     throw error;
   }
 };
-// http://localhost:5173/home?telegramId=7444825599&username=emmy0932
+// http://localhost:5173/home?telegramId=1247974918&username=bit_cipher
