@@ -25,7 +25,7 @@ const NonMobileMessage = () => (
 
 const App = () => {
   const [count, setCount] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.Telegram?.WebApp) {
