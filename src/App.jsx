@@ -25,7 +25,7 @@ const NonMobileMessage = () => (
 
 const App = () => {
   const [count, setCount] = useState(0);
-  const [isMobile, setIsMobile] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.Telegram?.WebApp) {
@@ -33,6 +33,10 @@ const App = () => {
 
       setTimeout(() => {
         window.Telegram.WebApp.expand();
+
+        // Set viewportHeight and viewportStableHeight
+        window.Telegram.WebApp.viewportHeight = 100;
+        window.Telegram.WebApp.viewportStableHeight = 100;
 
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
         if (isIOS) {
